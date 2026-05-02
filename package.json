@@ -1,0 +1,35 @@
+{
+  "name": "alumni-query-system",
+  "version": "1.0.0",
+  "description": "示例学校校史馆智能校友查询系统",
+  "private": true,
+  "workspaces": [
+    "client",
+    "admin",
+    "server"
+  ],
+  "scripts": {
+    "dev:server": "pnpm --filter server dev",
+    "dev:client": "pnpm --filter client dev",
+    "dev:admin": "pnpm --filter admin dev",
+    "build:server": "pnpm --filter server build",
+    "build:client": "pnpm --filter client build",
+    "build:admin": "pnpm --filter admin build",
+    "test": "pnpm --filter server test",
+    "lint": "pnpm -r lint",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop all",
+    "pm2:restart": "pm2 restart all",
+    "pm2:logs": "pm2 logs",
+    "pm2:status": "pm2 status",
+    "pm2:delete": "pm2 delete all"
+  },
+  "devDependencies": {
+    "axios": "^1.13.2",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

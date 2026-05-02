@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # Nginx前端服务器
+  nginx:
+    image: nginx:alpine
+    container_name: alumnet-nginx
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.docker.conf:/etc/nginx/nginx.conf:ro
+      - ./client/dist:/usr/share/nginx/html/client:ro
+      - ./admin/dist:/usr/share/nginx/html/admin:ro
+      - ./server/uploads:/usr/share/nginx/html/uploads:ro
+    depends_on:
+      - backend
+    networks:
+      - alumnet-network
+
+  # 后端API服务
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.prod
+    container_name: alumnet-backend
+    restart: always
+    network_mode: host
+    expose:
+      - "3000"
+    env_file:
+      - ./server/.env
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      - ./server/uploads:/app/server/uploads
+      - ./server/logs:/app/logs
+
+
+networks:
+  alumnet-network:
+    driver: bridge

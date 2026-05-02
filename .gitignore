@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Coverage
+coverage/
+
+# Build tools
+.vite/
+
+# Uploads & User Data
+server/uploads/
+backups/
+
+# Deployment archives
+*.zip
+
+# AI tool configs (private)
+.claude/
+.kiro/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Test artifacts
+tests/e2e/screenshots/
+tests/e2e/*.png

@@ -1,0 +1,789 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   毓文极光青 设计体系 v3.0
+   Yuwen Aurora Teal Design System
+   支持深色/浅色主题切换
+   ======================================== */
+
+:root {
+  /* ========================================
+     主题相关CSS变量 - 由ThemeStore动态设置
+     ======================================== */
+  /* 背景色系 */
+  --bg-primary: #020608;
+  --bg-secondary: #0f172a;
+  --bg-card: rgba(15, 23, 42, 0.6);
+  --bg-overlay: rgba(0, 0, 0, 0.8);
+  
+  /* 文字色系 */
+  --text-primary: #f8fafc;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.4);
+  
+  /* 毓文青色系 - 主色调 */
+  --color-teal: #14b8a6;
+  --color-teal-light: #5eead4;
+  --color-teal-dark: #0d9488;
+  
+  /* 边框/阴影 */
+  --border-color: rgba(20, 184, 166, 0.2);
+  --shadow-color: rgba(20, 184, 166, 0.15);
+  
+  /* 滚动条 */
+  --scrollbar-track: rgba(20, 184, 166, 0.05);
+  --scrollbar-thumb: rgba(20, 184, 166, 0.2);
+  --scrollbar-thumb-hover: rgba(20, 184, 166, 0.4);
+
+  /* ========================================
+     兼容旧变量名（逐步迁移）
+     ======================================== */
+  --yuwen-teal: var(--color-teal);
+  --yuwen-teal-light: var(--color-teal-light);
+  --yuwen-teal-dark: var(--color-teal-dark);
+  --yuwen-cyan: #22d3ee;
+  --bg-deep-space: var(--bg-primary);
+  --bg-dark: var(--bg-secondary);
+  --text-light: var(--text-primary);
+  --border-glow: var(--border-color);
+  --shadow-aurora: 0 0 30px var(--shadow-color);
+
+  /* ========================================
+     横竖屏自适应变量 - 默认横屏值
+     ======================================== */
+  --home-grid-cols: 5;
+  --search-grid-cols: 3;
+  --gallery-grid-cols: 4;
+  --video-grid-cols: 4;
+  --card-min-height: 24rem;
+  --touch-target-size: 44px;
+  --page-padding: 2.5rem;
+  --header-gap: 1.5rem;
+  --content-gap: 1.5rem;
+}
+
+/* ========================================
+   竖屏模式变量覆盖
+   ======================================== */
+@media (orientation: portrait) {
+  :root {
+    --home-grid-cols: 2;
+    --search-grid-cols: 1;
+    --gallery-grid-cols: 2;
+    --video-grid-cols: 2;
+    --card-min-height: 16rem;
+    --touch-target-size: 48px;
+    --page-padding: 1.5rem;
+    --header-gap: 1rem;
+    --content-gap: 1rem;
+  }
+}
+
+/* 窄竖屏（手机尺寸）进一步调整 */
+@media (orientation: portrait) and (max-width: 640px) {
+  :root {
+    --home-grid-cols: 1;
+    --search-grid-cols: 1;
+    --gallery-grid-cols: 1;
+    --video-grid-cols: 1;
+    --page-padding: 1rem;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* 主题切换过渡动画 */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 文字选中效果 */
+::selection {
+  background: rgba(20, 184, 166, 0.3);
+  color: var(--text-primary);
+}
+
+/* 触控优化 */
+button, a, .clickable {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ========================================
+   滚动条样式 - 毓文青（支持主题切换）
+   ======================================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* 自动隐藏滚动条 */
+.scrollbar-auto-hide {
+  scrollbar-width: thin;
+}
+
+.scrollbar-auto-hide::-webkit-scrollbar {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.scrollbar-auto-hide:hover::-webkit-scrollbar,
+.scrollbar-auto-hide.scrolling::-webkit-scrollbar {
+  opacity: 1;
+}
+
+.scrollbar-auto-hide::-webkit-scrollbar-thumb {
+  background: transparent;
+  transition: background 0.3s ease;
+}
+
+.scrollbar-auto-hide:hover::-webkit-scrollbar-thumb,
+.scrollbar-auto-hide.scrolling::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+}
+
+/* ========================================
+   玻璃拟态组件（支持主题切换）
+   ======================================== */
+@layer components {
+  /* 基础玻璃卡片 */
+  .glass-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 25px 50px -12px var(--shadow-color);
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  /* 可交互玻璃卡片 */
+  .glass-card-hover {
+    @apply transition-all duration-300 
+           hover:-translate-y-1;
+  }
+  
+  .glass-card-hover:hover {
+    background: var(--bg-card);
+    border-color: var(--color-teal);
+    box-shadow: 0 0 30px var(--shadow-color);
+  }
+
+  /* 毓文青按钮 */
+  .btn-yuwen {
+    @apply px-6 py-3 
+           bg-gradient-to-r from-teal-600 to-cyan-700 
+           hover:from-teal-500 hover:to-cyan-600 
+           font-bold rounded-lg 
+           shadow-lg shadow-teal-500/20 
+           transition-all active:scale-95 
+           border border-teal-400/20;
+    color: var(--text-primary);
+  }
+
+  /* 毓文青输入框 */
+  .input-yuwen {
+    @apply w-full rounded-lg px-4 py-3 
+           focus:outline-none 
+           focus:ring-1 focus:ring-teal-500/20 
+           transition-all;
+    background: var(--bg-overlay);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+  }
+  
+  .input-yuwen::placeholder {
+    color: var(--text-muted);
+  }
+  
+  .input-yuwen:focus {
+    border-color: var(--color-teal);
+  }
+
+  /* 毓文青标题渐变 */
+  .text-yuwen-gradient {
+    @apply text-transparent bg-clip-text 
+           bg-gradient-to-r from-teal-300 via-cyan-100 to-white;
+  }
+
+  /* 状态指示灯 */
+  .status-online {
+    @apply w-2 h-2 bg-teal-500 rounded-full 
+           animate-pulse shadow-[0_0_10px_#14b8a6];
+  }
+}
+
+/* ========================================
+   主题特定样式
+   ======================================== */
+/* 深色主题 */
+.theme-dark {
+  color-scheme: dark;
+}
+
+.theme-dark .text-yuwen-gradient {
+  @apply bg-gradient-to-r from-teal-300 via-cyan-100 to-white;
+}
+
+/* 浅色主题 */
+.theme-light {
+  color-scheme: light;
+}
+
+.theme-light .text-yuwen-gradient {
+  @apply bg-gradient-to-r from-amber-700 via-amber-600 to-orange-600;
+}
+
+.theme-light .glass-card {
+  background: rgba(255, 252, 248, 0.85);
+  border-color: rgba(139, 37, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(139, 37, 0, 0.08);
+}
+
+.theme-light .glass-card-hover:hover {
+  background: rgba(255, 252, 248, 0.95);
+  border-color: rgba(139, 37, 0, 0.3);
+}
+
+/* 浅色主题下的页面背景 */
+.theme-light .page-bg {
+  background: var(--bg-primary);
+}
+
+/* 浅色主题下的文字颜色覆盖 */
+.theme-light .text-white {
+  color: var(--text-primary);
+}
+
+.theme-light .text-white\/60,
+.theme-light .text-white\/70,
+.theme-light .text-white\/80 {
+  color: var(--text-secondary);
+}
+
+.theme-light .text-white\/30,
+.theme-light .text-white\/40,
+.theme-light .text-white\/50 {
+  color: var(--text-muted);
+}
+
+/* 浅色主题下的青色系映射到红木色 */
+.theme-light .text-teal-300,
+.theme-light .text-teal-400,
+.theme-light .text-teal-500 {
+  color: var(--color-accent);
+}
+
+.theme-light .text-teal-200\/40,
+.theme-light .text-teal-200\/60,
+.theme-light .text-teal-200\/70 {
+  color: rgba(139, 37, 0, 0.5);
+}
+
+.theme-light .text-teal-400\/60,
+.theme-light .text-teal-500\/50,
+.theme-light .text-teal-500\/60 {
+  color: rgba(139, 37, 0, 0.6);
+}
+
+.theme-light .text-cyan-500,
+.theme-light .text-cyan-300 {
+  color: var(--color-accent-light);
+}
+
+/* 浅色主题下的边框颜色 */
+.theme-light .border-teal-500\/20,
+.theme-light .border-teal-400\/50,
+.theme-light .border-teal-400\/30 {
+  border-color: var(--border-color);
+}
+
+.theme-light .border-white\/10,
+.theme-light .border-white\/20 {
+  border-color: rgba(139, 37, 0, 0.1);
+}
+
+/* 浅色主题下的背景色 */
+.theme-light .bg-black\/40,
+.theme-light .bg-black\/20,
+.theme-light .bg-black\/50,
+.theme-light .bg-black\/60 {
+  background: rgba(139, 37, 0, 0.05);
+}
+
+.theme-light .bg-white\/5,
+.theme-light .bg-white\/10 {
+  background: rgba(255, 252, 248, 0.6);
+}
+
+.theme-light .bg-teal-500\/10,
+.theme-light .bg-teal-500\/20,
+.theme-light .bg-teal-500\/30 {
+  background: rgba(139, 37, 0, 0.1);
+}
+
+/* 浅色主题下的渐变 */
+.theme-light .from-teal-300,
+.theme-light .from-teal-400,
+.theme-light .from-teal-500,
+.theme-light .from-teal-600 {
+  --tw-gradient-from: #8b2500;
+}
+
+.theme-light .to-cyan-500,
+.theme-light .to-cyan-600,
+.theme-light .to-cyan-700 {
+  --tw-gradient-to: #a63c1c;
+}
+
+.theme-light .via-cyan-100,
+.theme-light .via-white {
+  --tw-gradient-via: #d4a574;
+}
+
+/* 浅色主题下的阴影 */
+.theme-light .shadow-teal-500\/20,
+.theme-light .shadow-teal-500\/30 {
+  --tw-shadow-color: rgba(139, 37, 0, 0.15);
+}
+
+/* 浅色主题下的动画发光效果 */
+.theme-light .animate-pulse {
+  animation: pulse-light 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-light {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* 浅色主题下的滚动条 */
+.theme-light ::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+.theme-light ::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+}
+
+.theme-light ::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* 浅色主题下的选中效果 */
+.theme-light ::selection {
+  background: rgba(139, 37, 0, 0.2);
+  color: #2d1810;
+}
+
+/* 浅色主题下的按钮样式 */
+.theme-light .btn-yuwen {
+  @apply bg-gradient-to-r from-amber-700 to-orange-700 
+         hover:from-amber-600 hover:to-orange-600;
+  box-shadow: 0 4px 15px rgba(139, 37, 0, 0.2);
+}
+
+/* 浅色主题下的输入框 */
+.theme-light .input-yuwen {
+  background: rgba(255, 252, 248, 0.8);
+  border-color: rgba(139, 37, 0, 0.2);
+  color: var(--text-primary);
+}
+
+.theme-light .input-yuwen:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(139, 37, 0, 0.1);
+}
+
+/* 浅色主题下的灰色文字 */
+.theme-light .text-gray-300,
+.theme-light .text-gray-400,
+.theme-light .text-gray-500 {
+  color: var(--text-secondary);
+}
+
+/* ========================================
+   全局页面背景主题覆盖
+   ======================================== */
+/* 深色背景页面在亮色主题下的覆盖 */
+.theme-light .bg-\[\#020608\] {
+  background-color: #faf8f5 !important;
+}
+
+.theme-light .bg-\[\#0a0f14\] {
+  background-color: #f5f0ea !important;
+}
+
+/* 亮色主题下的渐变遮罩 */
+.theme-light .to-black\/80 {
+  --tw-gradient-to: rgba(245, 240, 234, 0.8) !important;
+}
+
+/* 亮色主题下的状态指示灯 */
+.theme-light .bg-teal-500 {
+  background-color: #8b2500 !important;
+}
+
+.theme-light .shadow-\[0_0_10px_\#14b8a6\] {
+  box-shadow: 0 0 10px #8b2500 !important;
+}
+
+/* 亮色主题下的加载动画 */
+.theme-light .border-t-teal-400,
+.theme-light .border-t-teal-500 {
+  border-top-color: #8b2500 !important;
+}
+
+.theme-light .border-teal-500\/20,
+.theme-light .border-teal-500\/30 {
+  border-color: rgba(139, 37, 0, 0.2) !important;
+}
+
+/* 亮色主题下的琥珀/橙色系（老物件数字馆） */
+.theme-light .text-amber-300,
+.theme-light .text-amber-400,
+.theme-light .text-amber-500 {
+  color: #92400e !important;
+}
+
+.theme-light .from-amber-300 {
+  --tw-gradient-from: #92400e !important;
+}
+
+.theme-light .to-orange-500 {
+  --tw-gradient-to: #c2410c !important;
+}
+
+.theme-light .border-amber-500\/20,
+.theme-light .border-amber-400\/50,
+.theme-light .border-amber-400\/30 {
+  border-color: rgba(146, 64, 14, 0.2) !important;
+}
+
+.theme-light .bg-amber-500\/20 {
+  background-color: rgba(146, 64, 14, 0.15) !important;
+}
+
+.theme-light .hover\:text-amber-400:hover {
+  color: #b45309 !important;
+}
+
+.theme-light .hover\:border-amber-400\/50:hover {
+  border-color: rgba(180, 83, 9, 0.5) !important;
+}
+
+/* 亮色主题下的靛蓝/紫色系（班级名录墙） */
+.theme-light .text-indigo-300,
+.theme-light .text-indigo-400,
+.theme-light .text-indigo-500 {
+  color: #4338ca !important;
+}
+
+.theme-light .from-indigo-300 {
+  --tw-gradient-from: #4338ca !important;
+}
+
+.theme-light .to-purple-500 {
+  --tw-gradient-to: #7c3aed !important;
+}
+
+.theme-light .border-indigo-500\/20,
+.theme-light .border-indigo-400\/50,
+.theme-light .border-indigo-400\/30 {
+  border-color: rgba(67, 56, 202, 0.2) !important;
+}
+
+.theme-light .bg-indigo-500\/20 {
+  background-color: rgba(67, 56, 202, 0.15) !important;
+}
+
+.theme-light .hover\:text-indigo-400:hover {
+  color: #6366f1 !important;
+}
+
+.theme-light .hover\:border-indigo-400\/50:hover {
+  border-color: rgba(99, 102, 241, 0.5) !important;
+}
+
+/* 亮色主题下的紫色系标签 */
+.theme-light .text-purple-300 {
+  color: #7c3aed !important;
+}
+
+.theme-light .bg-purple-500\/10 {
+  background-color: rgba(124, 58, 237, 0.1) !important;
+}
+
+.theme-light .border-purple-500\/20 {
+  border-color: rgba(124, 58, 237, 0.2) !important;
+}
+
+/* 亮色主题下的绿色系（成功状态） */
+.theme-light .text-green-300 {
+  color: #16a34a !important;
+}
+
+.theme-light .bg-green-500\/10 {
+  background-color: rgba(22, 163, 74, 0.1) !important;
+}
+
+.theme-light .border-green-500\/20 {
+  border-color: rgba(22, 163, 74, 0.2) !important;
+}
+
+/* 亮色主题下的翡翠色系 */
+.theme-light .text-emerald-300 {
+  color: #059669 !important;
+}
+
+.theme-light .bg-emerald-500\/10 {
+  background-color: rgba(5, 150, 105, 0.1) !important;
+}
+
+.theme-light .border-emerald-500\/20 {
+  border-color: rgba(5, 150, 105, 0.2) !important;
+}
+
+/* 亮色主题下的青色系 */
+.theme-light .bg-cyan-500\/10 {
+  background-color: rgba(139, 37, 0, 0.08) !important;
+}
+
+.theme-light .border-cyan-500\/20 {
+  border-color: rgba(139, 37, 0, 0.15) !important;
+}
+
+/* 亮色主题下的玫瑰色系 */
+.theme-light .text-rose-300 {
+  color: #e11d48 !important;
+}
+
+/* 亮色主题下的蓝色系 */
+.theme-light .text-blue-300 {
+  color: #2563eb !important;
+}
+
+/* 亮色主题下的黄色系（排行榜） */
+.theme-light .bg-yellow-500 {
+  background-color: #eab308 !important;
+}
+
+.theme-light .bg-amber-600 {
+  background-color: #d97706 !important;
+}
+
+/* 亮色主题下的灰色系 */
+.theme-light .bg-gray-800 {
+  background-color: #f5f0ea !important;
+}
+
+.theme-light .bg-gray-900 {
+  background-color: #faf8f5 !important;
+}
+
+.theme-light .from-gray-800 {
+  --tw-gradient-from: #f5f0ea !important;
+}
+
+.theme-light .to-gray-900 {
+  --tw-gradient-to: #faf8f5 !important;
+}
+
+.theme-light ::selection {
+  background: rgba(20, 184, 166, 0.2);
+  color: #0f172a;
+}
+
+/* ========================================
+   动画效果
+   ======================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from { 
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  100% { left: 125%; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.2);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(20, 184, 166, 0.4);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+.slide-down {
+  animation: slideDown 0.5s ease-out;
+}
+
+.animate-shine {
+  animation: shine 1s ease-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ========================================
+   自定义滚动条类
+   ======================================== */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* ========================================
+   横竖屏自适应工具类
+   ======================================== */
+
+/* 方向状态类 - 用于JavaScript动态添加 */
+.is-portrait {
+  --current-orientation: portrait;
+}
+
+.is-landscape {
+  --current-orientation: landscape;
+}
+
+/* 使用CSS变量的网格布局 */
+.grid-home {
+  display: grid;
+  grid-template-columns: repeat(var(--home-grid-cols), minmax(0, 1fr));
+  gap: var(--content-gap);
+}
+
+.grid-search {
+  display: grid;
+  grid-template-columns: repeat(var(--search-grid-cols), minmax(0, 1fr));
+  gap: var(--content-gap);
+}
+
+.grid-gallery {
+  display: grid;
+  grid-template-columns: repeat(var(--gallery-grid-cols), minmax(0, 1fr));
+  gap: var(--content-gap);
+}
+
+.grid-video {
+  display: grid;
+  grid-template-columns: repeat(var(--video-grid-cols), minmax(0, 1fr));
+  gap: var(--content-gap);
+}
+
+/* 触控目标最小尺寸 */
+.touch-target {
+  min-width: var(--touch-target-size);
+  min-height: var(--touch-target-size);
+}
+
+/* 页面内边距 */
+.page-padding {
+  padding: var(--page-padding);
+}
+
+/* 竖屏时隐藏元素 */
+@media (orientation: portrait) {
+  .hide-portrait {
+    display: none !important;
+  }
+}
+
+/* 横屏时隐藏元素 */
+@media (orientation: landscape) {
+  .hide-landscape {
+    display: none !important;
+  }
+}
+
+/* 竖屏时全宽 */
+@media (orientation: portrait) {
+  .portrait-full-width {
+    width: 100% !important;
+  }
+}
+
+/* 竖屏时垂直堆叠 */
+@media (orientation: portrait) {
+  .portrait-stack {
+    flex-direction: column !important;
+  }
+}
+
+/* 竖屏时允许换行 */
+@media (orientation: portrait) {
+  .portrait-wrap {
+    flex-wrap: wrap !important;
+  }
+}
