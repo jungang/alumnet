@@ -1,21 +1,69 @@
 <div align="center">
 
-# AlumNet
+<!-- Banner -->
+<img src="./截图/静息页.png" alt="AlumNet Banner" width="100%" style="border-radius: 12px; margin-bottom: 8px;" />
 
-**AI 智能校史展示系统**
+<br/>
 
-[简体中文](#-功能特色) | [English](#-features)
+<h1>
+  <img src="https://img.icons8.com/3d-fluency/94/conference-call.png" alt="logo" width="42" style="vertical-align: middle;" />
+  AlumNet
+</h1>
 
-An AI-powered intelligent school history exhibition and alumni management system
+**AI-Powered School History Exhibition & Alumni Management System**
 
-> **⚠️ Disclaimer**: All alumni data in this project is fictional and for demonstration purposes only.
+**AI 智能校史展示系统 — 校友星图**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![Vue 3](https://img.shields.io/badge/Vue-3.4-42b883.svg)](https://vuejs.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933.svg)](https://nodejs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6.svg)](https://www.typescriptlang.org/)
+<p>
+  <em>The first open-source AI-powered alumni exhibition system designed for school history museums.</em>
+</p>
+
+<p>
+  <a href="https://github.com/jungang/alumnet/stargazers">
+    <img src="https://img.shields.io/github/stars/jungang/alumnet?style=social" alt="GitHub stars" />
+  </a>
+  <a href="https://github.com/jungang/alumnet/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/jungang/alumnet?color=blue" alt="License" />
+  </a>
+  <img src="https://img.shields.io/github/last-commit/jungang/alumnet?color=informational" alt="Last commit" />
+  <img src="https://img.shields.io/github/repo-size/jungang/alumnet?color=success" alt="Repo size" />
+  <br/>
+  <img src="https://img.shields.io/badge/Vue-3.4-42b883?logo=vuedotjs&logoColor=white" alt="Vue 3" />
+  <img src="https://img.shields.io/badge/Node.js-18+-339933?logo=nodedotjs&logoColor=white" alt="Node.js" />
+  <img src="https://img.shields.io/badge/TypeScript-5.0-3178c6?logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Three.js-0.160-black?logo=threedotjs&logoColor=white" alt="Three.js" />
+  <img src="https://img.shields.io/badge/PostgreSQL-14+-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white" alt="Docker" />
+</p>
+
+<h4>
+  <a href="#-quick-start">Quick Start</a> ·
+  <a href="#-screenshots">Screenshots</a> ·
+  <a href="#-features">Features</a> ·
+  <a href="#-architecture">Architecture</a> ·
+  <a href="#-deployment">Deployment</a> ·
+  <a href="https://github.com/jungang/alumnet/issues">Issues</a> ·
+  <a href="./CONTRIBUTING.md">Contributing</a>
+</h4>
 
 </div>
+
+---
+
+> **🌟 Highlight**: AlumNet combines an immersive Three.js-powered exhibition kiosk with AI-driven natural language search (RAG), creating a museum-grade interactive experience that any school can deploy in 30 minutes with Docker.
+
+---
+
+## 💡 What is AlumNet?
+
+AlumNet is a full-stack open-source system purpose-built for **school history museums and alumni associations**. It provides:
+
+- 🖥️ A **touch-screen kiosk** with sci-fi visual effects — alumni galaxies, time corridors, vintage museums
+- 🤖 **AI-powered natural language search** — ask "哪些校友在医疗领域工作？" and get intelligent answers via RAG
+- ⚙️ A **complete admin dashboard** — manage alumni data, photos, messages, donations, and more
+- 🐳 **One-command Docker deployment** — production-ready out of the box
+
+Built for schools, museums, and education developers. Deploy it for your alma mater today.
 
 ---
 
@@ -23,28 +71,34 @@ An AI-powered intelligent school history exhibition and alumni management system
 
 <table>
   <tr>
-    <td align="center"><b>Standby Screen</b><br/><i>静息待机页</i></td>
-    <td align="center"><b>Main Navigation</b><br/><i>主导航界面</i></td>
+    <td width="50%">
+      <img src="./截图/静息页.png" alt="Standby Screen" width="100%" style="border-radius: 8px;" />
+      <p align="center"><b>✨ Standby Screen</b><br/><sub>Sci-fi style kiosk standby with real-time clock</sub></p>
+    </td>
+    <td width="50%">
+      <img src="./截图/导航.png" alt="Main Navigation" width="100%" style="border-radius: 8px;" />
+      <p align="center"><b>🧭 Main Navigation</b><br/><sub>Five core modules with dark futuristic UI</sub></p>
+    </td>
   </tr>
   <tr>
-    <td><img src="./截图/静息页.png" alt="Standby Screen" width="400"/></td>
-    <td><img src="./截图/导航.png" alt="Main Navigation" width="400"/></td>
+    <td width="50%">
+      <img src="./截图/Snipaste_2026-05-02_21-08-51.png" alt="AI Smart Search" width="100%" style="border-radius: 8px;" />
+      <p align="center"><b>🤖 AI Smart Search</b><br/><sub>Natural language query powered by RAG</sub></p>
+    </td>
+    <td width="50%">
+      <img src="./截图/Snipaste_2026-05-02_21-09-56.png" alt="Time Corridor" width="100%" style="border-radius: 8px;" />
+      <p align="center"><b>⏳ Time Corridor</b><br/><sub>Chronological photo gallery by graduation year</sub></p>
+    </td>
   </tr>
   <tr>
-    <td align="center"><b>Smart Search</b><br/><i>AI 智能查询</i></td>
-    <td align="center"><b>Time Corridor</b><br/><i>时空长廊</i></td>
-  </tr>
-  <tr>
-    <td><img src="./截图/Snipaste_2026-05-02_21-08-51.png" alt="Smart Search" width="400"/></td>
-    <td><img src="./截图/Snipaste_2026-05-02_21-09-56.png" alt="Time Corridor" width="400"/></td>
-  </tr>
-  <tr>
-    <td align="center"><b>Message Board</b><br/><i>互动寄语墙</i></td>
-    <td align="center"><b>Light Theme</b><br/><i>浅色主题</i></td>
-  </tr>
-  <tr>
-    <td><img src="./截图/Snipaste_2026-05-02_21-10-13.png" alt="Message Board" width="400"/></td>
-    <td><img src="./截图/Snipaste_2026-05-02_21-10-38.png" alt="Light Theme" width="400"/></td>
+    <td width="50%">
+      <img src="./截图/Snipaste_2026-05-02_21-10-13.png" alt="Message Board" width="100%" style="border-radius: 8px;" />
+      <p align="center"><b>💬 Interactive Message Board</b><br/><sub>Alumni greetings and memories wall</sub></p>
+    </td>
+    <td width="50%">
+      <img src="./截图/Snipaste_2026-05-02_21-10-38.png" alt="Light Theme" width="100%" style="border-radius: 8px;" />
+      <p align="center"><b>🌗 Light Theme</b><br/><sub>Switchable dark/light themes for different venues</sub></p>
+    </td>
   </tr>
 </table>
 
@@ -52,183 +106,261 @@ An AI-powered intelligent school history exhibition and alumni management system
 
 ## ✨ Features
 
-An AI-powered alumni management and exhibition system for school history museums, designed for touch-screen kiosks with immersive visual effects.
+<table>
+<tr>
+<td width="50%">
 
-| Feature | Description |
-|---------|-------------|
-| 🖥️ **Touch-screen Kiosk** | Immersive exhibition frontend built with Vue 3 + Three.js, featuring alumni galaxy, time corridor, and more |
-| 🤖 **AI Smart Search** | RAG (Retrieval-Augmented Generation) powered natural language query with GLM-4 / DeepSeek |
-| 🎓 **Alumni Management** | Full CRUD operations, batch import/export, photo management with face tagging |
-| ⏳ **Time Corridor** | Chronological gallery with graduation photos, vintage items, and class directories |
-| 💬 **Interactive Messages** | Message board for alumni to leave greetings and memories |
-| 📊 **Admin Dashboard** | Complete management backend built with Element Plus |
-| 💾 **Backup & Restore** | Full database backup and restore functionality |
-| 🌗 **Dark/Light Theme** | Dual theme support for different exhibition environments |
+### 🖥️ Touch-screen Exhibition Kiosk
+Immersive frontend built with **Vue 3 + Three.js**
+- **Alumni Galaxy** — 3D interactive star map of alumni
+- **Time Corridor** — Chronological photo gallery
+- **Vintage Museum** — Digital archive of historical items
+- **Top Scholars** — Honor wall for outstanding alumni
+- Standby screen with real-time clock & wake-on-touch
 
-## ✨ 功能特色
+</td>
+<td width="50%">
 
-基于 AI 的校史馆智能校友管理与展示系统，专为触摸屏展厅设计，提供沉浸式视觉体验。
+### 🤖 AI-Powered Smart Search
+Natural language query powered by **RAG architecture**
+- Ask questions like "Who graduated in 1990 and works in tech?"
+- Context-aware answers with referenced alumni profiles
+- Multi-provider support: GLM-4, DeepSeek, or any OpenAI-compatible API
+- Powered by **Qdrant** vector database + **pgvector** embeddings
 
-- 🖥️ **触摸屏展厅** — 基于 Vue 3 + Three.js 的沉浸式展示界面，支持校友星图、时空走廊等 3D 视觉效果
-- 🤖 **AI 智能检索** — 基于 RAG 的自然语言查询，支持 GLM-4 / DeepSeek，让校友查询更智能
-- 🎓 **校友管理** — 完整的校友信息管理，支持批量导入导出、毕业照管理与人脸标注
-- ⏳ **时空长廊** — 按年代浏览毕业照、老物件、班级合影，重温校园记忆
-- 💬 **互动寄语** — 校友留言墙，支持写给母校、老师、同学的寄语
-- 📊 **管理后台** — 基于 Element Plus 的完整后台管理系统
-- 💾 **数据备份** — 一键数据库备份与恢复
-- 🌗 **双主题** — 支持深色/浅色主题切换，适配不同展厅环境
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### ⚙️ Admin Dashboard
+Complete management backend with **Element Plus**
+- Alumni CRUD, batch import/export (Excel supported)
+- Graduation photo management with face tagging
+- Content moderation for messages & comments
+- System dashboard with usage analytics
+- One-click database backup & restore
+
+</td>
+<td width="50%">
+
+### 🏗️ Production-Ready Infrastructure
+Enterprise-grade deployment out of the box
+- **Docker Compose** — One command to production
+- **PM2** — Process management with auto-restart
+- **Nginx** — Reverse proxy with SPA routing
+- **PostgreSQL** — Reliable data storage with pgvector
+- Configurable school name, logo, and branding
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 🛠️ Tech Stack / 技术栈
-
-| Component / 组件 | Technology / 技术 |
-|:---|:---|
-| Kiosk Frontend / 展厅前端 | Vue 3 + TypeScript + Three.js + Tailwind CSS |
-| Admin Dashboard / 管理后台 | Vue 3 + TypeScript + Element Plus |
-| Backend / 后端服务 | Node.js + Express + TypeScript |
-| Database / 数据库 | PostgreSQL + pgvector |
-| Vector DB / 向量数据库 | Qdrant |
-| AI Service / AI 服务 | GLM-4 / DeepSeek API |
-| Deployment / 部署 | Docker + PM2 + Nginx |
-
----
-
-## 📁 Project Structure / 项目结构
+## 🏛️ Architecture
 
 ```
-├── client/                  # Touch-screen kiosk (Vue 3 + Three.js)
-│   └── src/                 # 触控展示端
-│       ├── views/           # Galaxy, TimeCorridor, Search pages
-│       ├── components/      # AIChatDialog, FaceTagOverlay, etc.
-│       └── composables/     # Reusable composition functions
-├── admin/                   # Admin dashboard (Vue 3 + Element Plus)
-│   └── src/                 # 管理后台
-│       ├── views/           # Alumni, Backup, Dashboard pages
-│       ├── api/             # API interface definitions
-│       └── layouts/         # Admin layout
-├── server/                  # Backend API (Node.js + Express)
-│   └── src/                 # 后端服务
-│       ├── routes/          # API routes
-│       ├── services/        # Business logic (RAG, auth, backup)
-│       ├── db/              # Migrations, seeds, imports
-│       └── config/          # Database & app config
-├── docs/                    # Documentation / 文档
-├── tests/                   # E2E tests / 测试
-├── 截图/                    # Screenshots / 截图
-├── docker-compose.yml       # Docker Compose config
-├── deploy.sh                # Deployment script
-└── ecosystem.config.js      # PM2 process manager
+┌─────────────────────────────────────────────────────────────┐
+│                        Nginx (Reverse Proxy)                 │
+├──────────────┬──────────────┬───────────────────────────────┤
+│              │              │                               │
+│  ┌─────────┐ │ ┌──────────┐ │  ┌──────────────────────────┐ │
+│  │  Client  │ │ │  Admin   │ │  │       Server (API)       │ │
+│  │ (Kiosk)  │ │ │ (Manage) │ │  │      Express + TS       │ │
+│  │          │ │ │          │ │  │                          │ │
+│  │ Vue 3    │ │ │ Vue 3    │ │  │  ┌──────┐  ┌─────────┐ │ │
+│  │ Three.js │ │ │ Element  │ │  │  │ Auth │  │   RAG   │ │ │
+│  │ Tailwind │ │ │ Plus     │ │  │  └──────┘  └─────────┘ │ │
+│  └─────────┘ │ └──────────┘ │  │  ┌──────┐  ┌─────────┐ │ │
+│              │              │ │  │ Alumni│  │ Backup  │ │ │
+│  Port 5173   │  Port 5174   │ │  └──────┘  └─────────┘ │ │
+│              │              │ │             │  │         │ │
+└──────────────┴──────────────┘ │  ┌──────┐  ┌─────────┐ │ │
+                                │  │  PG  │  │ Qdrant  │ │ │
+                                │  └──────┘  └─────────┘ │ │
+                                └──────────────────────────┘ │
+                                             Port 3000       │
+                                             ────────────────┘
 ```
 
 ---
 
-## 🚀 Quick Start / 快速开始
+## 🛠️ Tech Stack
 
-### Prerequisites / 环境要求
+| Layer | Technology | Purpose |
+|:------|:-----------|:--------|
+| **Kiosk Frontend** | Vue 3 · TypeScript · Three.js · Tailwind CSS | Touch-screen exhibition with 3D visual effects |
+| **Admin Dashboard** | Vue 3 · TypeScript · Element Plus · XLSX | Alumni data management & system administration |
+| **Backend API** | Node.js · Express · TypeScript | RESTful API with JWT authentication |
+| **Database** | PostgreSQL · pgvector | Relational data + vector embeddings |
+| **Vector Search** | Qdrant | High-performance similarity search for RAG |
+| **AI Engine** | GLM-4 · DeepSeek API | LLM-powered natural language Q&A |
+| **Deployment** | Docker · PM2 · Nginx | Production-grade containerized deployment |
 
-- Node.js >= 18
-- pnpm >= 8
-- PostgreSQL >= 14 (with pgvector extension recommended)
-- (Optional) Qdrant — for AI-powered search
-- (Optional) GLM-4 or DeepSeek API Key — for AI features
+---
 
-### 1. Clone / 克隆项目
+## 🚀 Quick Start
+
+### Prerequisites
+
+| Requirement | Version | Required? |
+|:------------|:--------|:----------|
+| Node.js | ≥ 18 | ✅ Yes |
+| pnpm | ≥ 8 | ✅ Yes |
+| PostgreSQL | ≥ 14 | ✅ Yes (with pgvector recommended) |
+| Qdrant | latest | ⭕ Optional (for AI search) |
+| AI API Key | — | ⭕ Optional (GLM-4 or DeepSeek) |
+
+### Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+# 1️⃣ Clone the repository
+git clone https://github.com/jungang/alumnet.git
 cd alumnet
-```
 
-### 2. Install / 安装依赖
-
-```bash
+# 2️⃣ Install dependencies
 pnpm install
-```
 
-### 3. Configure / 配置环境变量
-
-```bash
+# 3️⃣ Configure environment
 cp server/.env.example server/.env
+# Edit server/.env with your settings
+
+# 4️⃣ Initialize database
+# Execute server/src/db/init.sql in PostgreSQL
+# (Optional) Execute server/src/db/seed.sql for sample data
+
+# 5️⃣ Start development servers
+pnpm dev:server    # Backend API → http://localhost:3000
+pnpm dev:client    # Kiosk frontend → http://localhost:5173
+pnpm dev:admin     # Admin dashboard → http://localhost:5174
 ```
 
-Edit `server/.env` and fill in your configuration (database connection, API keys, etc.).
+### Key Configuration
 
-Key configurations:
-- `SCHOOL_NAME` — Your school name (displayed in UI)
-- `SCHOOL_LOGO_URL` — Path to your school logo
-- `DB_*` — Database connection
-- `AI_PROVIDER` + API keys — For AI smart search
-
-### 4. Initialize Database / 初始化数据库
-
-Execute `server/src/db/init.sql` in PostgreSQL to create the schema.
-
-Optional: Execute `server/src/db/seed.sql` to insert sample data.
-
-### 5. Start Dev Servers / 启动开发服务
-
-```bash
-# Backend / 后端
-pnpm dev:server
-
-# Kiosk frontend / 展厅前端
-pnpm dev:client
-
-# Admin dashboard / 管理后台
-pnpm dev:admin
-```
-
-### 6. Access / 访问地址
-
-| Service / 服务 | URL |
-|:---|:---|
-| 🖥️ Kiosk / 展厅前端 | http://localhost:5173 |
-| ⚙️ Admin / 管理后台 | http://localhost:5174 |
-| 🔌 API / 接口服务 | http://localhost:3000 |
+| Variable | Description | Default |
+|:---------|:------------|:--------|
+| `SCHOOL_NAME` | School name displayed in UI | `示例中学` |
+| `SCHOOL_LOGO_URL` | Path to school logo | `/logo.png` |
+| `SCHOOL_SINCE` | School founding year | `1917` |
+| `DB_*` | PostgreSQL connection | — |
+| `AI_PROVIDER` | AI provider (`glm` or `deepseek`) | `glm` |
+| `SCREEN_RESOLUTION` | Target kiosk resolution | `1920x1080` |
 
 ---
 
-## 🐳 Docker Deployment / Docker 部署
+## 🐳 Deployment
+
+### Docker (Recommended for Production)
 
 ```bash
-# Configure environment / 配置环境变量
+# Configure environment
 cp server/.env.example server/.env
-# Edit .env file... / 编辑 .env 文件...
+# Edit .env with production values...
 
-# Start all services / 启动所有服务
+# Launch all services
 docker compose up -d
 ```
 
----
+### PM2 (Bare Metal)
 
-## 📖 Documentation / 文档
+```bash
+pnpm build:server && pnpm build:client && pnpm build:admin
+pnpm pm2:start    # Start all services via PM2
+pnpm pm2:status   # Check status
+pnpm pm2:logs     # View logs
+```
 
-- [Deployment Guide / 部署指南](./DEPLOYMENT.md) — Detailed deployment instructions
-- [Nginx Config / Nginx 配置](./docs/nginx-xyl.conf) — Reverse proxy configuration reference
-
----
-
-## 🤝 Contributing / 贡献
-
-Contributions are welcome! Feel free to submit Issues or Pull Requests.
-
-1. Fork this repository / Fork 本仓库
-2. Create feature branch / 创建特性分支 (`git checkout -b feature/amazing-feature`)
-3. Commit changes / 提交更改 (`git commit -m 'feat: add amazing feature'`)
-4. Push to branch / 推送到分支 (`git push origin feature/amazing-feature`)
-5. Open a Pull Request / 提交 Pull Request
+📖 See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment guide.
 
 ---
 
-## 📄 License / 许可证
+## 📁 Project Structure
 
-[MIT License](./LICENSE)
+```
+alumnet/
+├── client/                  # 🖥️ Touch-screen exhibition kiosk
+│   └── src/
+│       ├── views/           # Galaxy · TimeCorridor · Search · Messages
+│       ├── components/      # AIChatDialog · FaceTagOverlay · ThemeToggle
+│       └── composables/     # useAutoRefresh · useIdleDetection
+├── admin/                   # ⚙️ Management dashboard
+│   └── src/
+│       ├── views/           # 19 views: Alumni · Photos · Backup · Dashboard...
+│       └── api/             # Typed API client
+├── server/                  # 🔌 Backend API service
+│   └── src/
+│       ├── routes/          # REST API endpoints
+│       ├── services/        # Business logic (RAG · Auth · Backup)
+│       ├── repositories/    # Data access layer
+│       └── db/              # Migrations · Seeds · Import scripts
+├── .github/                 # 🤖 CI/CD · Issue templates · PR templates
+├── docker-compose.yml       # 🐳 Production Docker config
+├── deploy.sh                # 📦 Automated deployment script
+└── ecosystem.config.js      # ⚡ PM2 process manager
+```
 
 ---
 
-## ⚠️ Disclaimer / 免责声明
+## 🗺️ Roadmap
 
-All alumni data included in this project is **fictional and for demonstration purposes only**. Please do not use the sample data for any real-world applications.
+- [ ] **i18n** — Multi-language UI support
+- [ ] **WeChat Integration** — Login via WeChat mini-program
+- [ ] **Photo AI** — Auto face recognition for graduation photos
+- [ ] **Data Visualization** — Interactive alumni statistics dashboard
+- [ ] **Mobile App** — Responsive design for mobile browsers
+- [ ] **Plugin System** — Extensible module architecture
 
-本项目中的所有校友数据均为**虚构示例**，仅供演示和开发测试使用。请勿将示例数据用于任何实际用途。
+---
+
+## 🤝 Contributing
+
+We welcome contributions from the community! Whether it's a bug fix, new feature, or documentation improvement.
+
+```bash
+# Quick contribution workflow
+git checkout -b feature/your-feature
+git commit -m "feat: add your feature"
+git push origin feature/your-feature
+# Then open a Pull Request 🎉
+```
+
+📖 See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines.
+
+**Commit Convention**: We follow [Conventional Commits](https://www.conventionalcommits.org/) — `feat:`, `fix:`, `docs:`, `refactor:`, etc.
+
+---
+
+## 📊 Project Stats
+
+<p align="center">
+  <img src="https://img.shields.io/github/languages/count/jungang/alumnet?color=informational" alt="Languages" />
+  <img src="https://img.shields.io/github/languages/top/jungang/alumnet?color=3178c6" alt="Top language" />
+  <img src="https://img.shields.io/github/issues/jungang/alumnet" alt="Issues" />
+  <img src="https://img.shields.io/github/issues-pr/jungang/alumnet" alt="PRs" />
+  <img src="https://img.shields.io/github/contributors/jungang/alumnet" alt="Contributors" />
+</p>
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see [LICENSE](./LICENSE) for details.
+
+Free for personal, educational, and commercial use. Attribution appreciated but not required.
+
+---
+
+## ⚠️ Disclaimer
+
+All alumni data included in this project is **fictional** and for **demonstration purposes only**. Do not use the sample data in production environments.
+
+---
+
+<div align="center">
+
+**Made with ❤️ for school history museums everywhere**
+
+[⬆ Back to Top](#-what-is-alumnet)
+
+</div>
