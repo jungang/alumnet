@@ -10,6 +10,7 @@ import adminRoutes from './routes/admin';
 import contentRoutes from './routes/content';
 import uploadRoutes from './routes/upload';
 import backupRoutes from './routes/backup';
+import { setupSwagger } from './routes/api-docs';
 import path from 'path';
 
 dotenv.config();
@@ -48,6 +49,9 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/content', contentRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/backup', backupRoutes);
+
+// Swagger API文档
+setupSwagger(app);
 
 // 404处理
 app.use((_req, res) => {

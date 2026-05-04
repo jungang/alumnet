@@ -5,14 +5,30 @@ import { authMiddleware, AuthRequest } from '../middleware/auth';
 
 const router: Router = Router();
 
-// 获取校友列表（公开接口，供触控展示端使用）
+/**
+ * @openapi
+ * /api/alumni:
+ *   get:
+ *     summary: List all alumni
+ *     tags: [Alumni]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Items per page
+ *     responses:
+ *       200:
+ *         description: List of alumni
+ */
 router.get('/', async (_req: Request, res: Response) => {
   try {
-    const result = await alumniService.search(
-      { page: 1, pageSize: 20 },
-      'guest',
-      undefined
-    );
+    const result = await alumniService.search({ page: 1, pageSize: 20 }, 'guest', undefined);
     res.json({ success: true, data: result });
   } catch (error) {
     console.error('获取校友列表失败:', error);
@@ -24,7 +40,7 @@ router.get('/', async (_req: Request, res: Response) => {
 router.get('/search', async (req: Request, res: Response) => {
   try {
     const { keyword, yearStart, yearEnd, industry, className, page, pageSize } = req.query;
-    
+
     const criteria = {
       keyword: keyword as string,
       yearStart: yearStart ? parseInt(yearStart as string) : undefined,
@@ -35,11 +51,7 @@ router.get('/search', async (req: Request, res: Response) => {
       pageSize: pageSize ? parseInt(pageSize as string) : 20,
     };
 
-    const result = await alumniService.search(
-      criteria,
-      'guest',
-      undefined
-    );
+    const result = await alumniService.search(criteria, 'guest', undefined);
 
     res.json({ success: true, data: result });
   } catch (error) {
@@ -79,11 +91,7 @@ router.get('/filters', async (_req: Request, res: Response) => {
 router.get('/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const alumni = await alumniService.getDetail(
-      id,
-      'guest',
-      undefined
-    );
+    const alumni = await alumniService.getDetail(id, 'guest', undefined);
 
     if (!alumni) {
       return res.status(404).json({ success: false, message: '校友不存在' });
@@ -100,11 +108,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 router.get('/:id/recommendations', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const recommendations = await alumniService.getRecommendations(
-      id,
-      'guest',
-      undefined
-    );
+    const recommendations = await alumniService.getRecommendations(id, 'guest', undefined);
 
     res.json({ success: true, data: recommendations });
   } catch (error) {
@@ -117,11 +121,7 @@ router.get('/:id/recommendations', async (req: Request, res: Response) => {
 router.get('/:id/classmates', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const classmates = await alumniService.getClassmates(
-      id,
-      'guest',
-      undefined
-    );
+    const classmates = await alumniService.getClassmates(id, 'guest', undefined);
 
     res.json({ success: true, data: classmates });
   } catch (error) {

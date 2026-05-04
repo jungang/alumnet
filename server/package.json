@@ -8,7 +8,9 @@
     "build": "tsc",
     "start": "node dist/app.js",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
   },
   "dependencies": {
     "@qdrant/js-client-rest": "^1.16.2",
@@ -23,11 +25,15 @@
     "multer": "^1.4.5-lts.1",
     "pg": "^8.11.3",
     "pgvector": "^0.1.8",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "tar": "^7.5.9",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/swagger-jsdoc": "^6.0.0",
+    "@types/swagger-ui-express": "^4.1.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.5",
@@ -35,8 +41,13 @@
     "@types/node": "^20.10.5",
     "@types/pg": "^8.10.9",
     "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "@vitest/coverage-v8": "^1.6.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.0.0",
     "fast-check": "^3.15.0",
+    "prettier": "^3.0.0",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
     "vitest": "^1.1.0"

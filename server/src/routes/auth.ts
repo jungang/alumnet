@@ -7,20 +7,20 @@ const router: Router = Router();
 router.post('/verify/student', async (req: Request, res: Response) => {
   try {
     const { studentId, name } = req.body;
-    
+
     if (!studentId || !name) {
-      return res.status(400).json({ 
-        success: false, 
-        message: '请提供学号和姓名' 
+      return res.status(400).json({
+        success: false,
+        message: '请提供学号和姓名',
       });
     }
 
     const session = await authService.verifyAlumniByStudentId(studentId, name);
-    
+
     if (!session) {
-      return res.status(401).json({ 
-        success: false, 
-        message: '验证失败，请检查学号和姓名是否正确' 
+      return res.status(401).json({
+        success: false,
+        message: '验证失败，请检查学号和姓名是否正确',
       });
     }
 
@@ -30,9 +30,9 @@ router.post('/verify/student', async (req: Request, res: Response) => {
       className: session.className,
     });
 
-    res.json({ 
-      success: true, 
-      data: { token, session } 
+    res.json({
+      success: true,
+      data: { token, session },
     });
   } catch (error) {
     console.error('身份验证失败:', error);
@@ -44,20 +44,20 @@ router.post('/verify/student', async (req: Request, res: Response) => {
 router.post('/verify/phone', async (req: Request, res: Response) => {
   try {
     const { phone, otp } = req.body;
-    
+
     if (!phone || !otp) {
-      return res.status(400).json({ 
-        success: false, 
-        message: '请提供手机号和验证码' 
+      return res.status(400).json({
+        success: false,
+        message: '请提供手机号和验证码',
       });
     }
 
     const session = await authService.verifyAlumniByPhone(phone, otp);
-    
+
     if (!session) {
-      return res.status(401).json({ 
-        success: false, 
-        message: '验证失败，请检查手机号和验证码' 
+      return res.status(401).json({
+        success: false,
+        message: '验证失败，请检查手机号和验证码',
       });
     }
 
@@ -67,9 +67,9 @@ router.post('/verify/phone', async (req: Request, res: Response) => {
       className: session.className,
     });
 
-    res.json({ 
-      success: true, 
-      data: { token, session } 
+    res.json({
+      success: true,
+      data: { token, session },
     });
   } catch (error) {
     console.error('手机验证失败:', error);
@@ -77,30 +77,54 @@ router.post('/verify/phone', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @openapi
+ * /api/auth/admin/login:
+ *   post:
+ *     summary: Admin login
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [username, password]
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       401:
+ *         description: Invalid credentials
+ */
 // 管理员登录
 router.post('/admin/login', async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
-    
+
     if (!username || !password) {
-      return res.status(400).json({ 
-        success: false, 
-        message: '请提供用户名和密码' 
+      return res.status(400).json({
+        success: false,
+        message: '请提供用户名和密码',
       });
     }
 
     const result = await authService.adminLogin(username, password);
-    
+
     if (!result) {
-      return res.status(401).json({ 
-        success: false, 
-        message: '用户名或密码错误' 
+      return res.status(401).json({
+        success: false,
+        message: '用户名或密码错误',
       });
     }
 
-    res.json({ 
-      success: true, 
-      data: result 
+    res.json({
+      success: true,
+      data: result,
     });
   } catch (error) {
     console.error('管理员登录失败:', error);
@@ -112,10 +136,10 @@ router.post('/admin/login', async (req: Request, res: Response) => {
 router.get('/guest', (_req: Request, res: Response) => {
   const session = authService.getGuestSession();
   const token = authService.generateToken({ role: 'guest' });
-  
-  res.json({ 
-    success: true, 
-    data: { token, session } 
+
+  res.json({
+    success: true,
+    data: { token, session },
   });
 });
 

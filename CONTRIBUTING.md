@@ -40,25 +40,26 @@ pnpm dev:admin    # Admin dashboard
 
 ## Development Workflow
 
-1. Create a feature branch from `main`
+1. Create a feature branch from `master`
    ```bash
    git checkout -b feature/your-feature-name
    ```
 2. Make your changes
 3. Ensure code quality
    ```bash
-   pnpm lint
-   pnpm build
+   pnpm lint          # Run ESLint on all workspaces
+   pnpm build         # Build all packages
    ```
-4. Commit with conventional messages
+4. Commit with conventional messages (commitlint enforces this)
    ```bash
    git commit -m "feat: add amazing feature"
    ```
+   > **Note:** Husky pre-commit hooks auto-run ESLint + Prettier on staged files.
 5. Push and create a Pull Request
 
 ## Commit Convention
 
-We follow [Conventional Commits](https://www.conventionalcommits.org/):
+We follow [Conventional Commits](https://www.conventionalcommits.org/), enforced by commitlint:
 
 - `feat:` New feature
 - `fix:` Bug fix
@@ -66,12 +67,41 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 - `style:` Code formatting (no logic changes)
 - `refactor:` Code refactoring
 - `test:` Adding or updating tests
+- `ci:` CI/CD changes
 - `chore:` Build process or tooling changes
 
-## Code Style
+## Code Formatting
+
+We use **ESLint 9** + **Prettier 3** for code formatting and linting.
+
+### Running Linters
+
+```bash
+# Lint all packages
+pnpm lint
+
+# Auto-fix linting issues
+pnpm -r lint --fix
+
+# Per-workspace linting
+pnpm --filter client lint
+pnpm --filter server lint
+pnpm --filter admin lint
+```
+
+### Pre-commit Hooks
+
+We use **Husky** + **lint-staged**. When you commit, lint-staged automatically runs ESLint and Prettier on staged files. If linting fails, the commit is aborted. Fix the issues and try again.
+
+```bash
+# Set up hooks after cloning
+pnpm prepare
+```
+
+### Code Style Rules
 
 - TypeScript strict mode
-- ESLint + Prettier for formatting
+- Single quotes, trailing commas, 100 char print width
 - Meaningful variable and function names
 - Comments in Chinese or English are both welcome
 
