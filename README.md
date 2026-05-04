@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- Banner -->
-<img src="./截图/静息页.png" alt="AlumNet Banner" width="100%" style="border-radius: 12px; margin-bottom: 8px;" />
+<img src="./screenshots/静息页.png" alt="AlumNet Banner" width="100%" style="border-radius: 12px; margin-bottom: 8px;" />
 
 <br/>
 
@@ -72,31 +72,31 @@ Built for schools, museums, and education developers. Deploy it for your alma ma
 <table>
   <tr>
     <td width="50%">
-      <img src="./截图/静息页.png" alt="Standby Screen" width="100%" style="border-radius: 8px;" />
+      <img src="./screenshots/静息页.png" alt="Standby Screen" width="100%" style="border-radius: 8px;" />
       <p align="center"><b>✨ Standby Screen</b><br/><sub>Sci-fi style kiosk standby with real-time clock</sub></p>
     </td>
     <td width="50%">
-      <img src="./截图/导航.png" alt="Main Navigation" width="100%" style="border-radius: 8px;" />
+      <img src="./screenshots/导航.png" alt="Main Navigation" width="100%" style="border-radius: 8px;" />
       <p align="center"><b>🧭 Main Navigation</b><br/><sub>Five core modules with dark futuristic UI</sub></p>
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <img src="./截图/Snipaste_2026-05-02_21-08-51.png" alt="AI Smart Search" width="100%" style="border-radius: 8px;" />
+      <img src="./screenshots/Snipaste_2026-05-02_21-08-51.png" alt="AI Smart Search" width="100%" style="border-radius: 8px;" />
       <p align="center"><b>🤖 AI Smart Search</b><br/><sub>Natural language query powered by RAG</sub></p>
     </td>
     <td width="50%">
-      <img src="./截图/Snipaste_2026-05-02_21-09-56.png" alt="Time Corridor" width="100%" style="border-radius: 8px;" />
+      <img src="./screenshots/Snipaste_2026-05-02_21-09-56.png" alt="Time Corridor" width="100%" style="border-radius: 8px;" />
       <p align="center"><b>⏳ Time Corridor</b><br/><sub>Chronological photo gallery by graduation year</sub></p>
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <img src="./截图/Snipaste_2026-05-02_21-10-13.png" alt="Message Board" width="100%" style="border-radius: 8px;" />
+      <img src="./screenshots/Snipaste_2026-05-02_21-10-13.png" alt="Message Board" width="100%" style="border-radius: 8px;" />
       <p align="center"><b>💬 Interactive Message Board</b><br/><sub>Alumni greetings and memories wall</sub></p>
     </td>
     <td width="50%">
-      <img src="./截图/Snipaste_2026-05-02_21-10-38.png" alt="Light Theme" width="100%" style="border-radius: 8px;" />
+      <img src="./screenshots/Snipaste_2026-05-02_21-10-38.png" alt="Light Theme" width="100%" style="border-radius: 8px;" />
       <p align="center"><b>🌗 Light Theme</b><br/><sub>Switchable dark/light themes for different venues</sub></p>
     </td>
   </tr>
@@ -111,7 +111,9 @@ Built for schools, museums, and education developers. Deploy it for your alma ma
 <td width="50%">
 
 ### 🖥️ Touch-screen Exhibition Kiosk
+
 Immersive frontend built with **Vue 3 + Three.js**
+
 - **Alumni Galaxy** — 3D interactive star map of alumni
 - **Time Corridor** — Chronological photo gallery
 - **Vintage Museum** — Digital archive of historical items
@@ -122,7 +124,9 @@ Immersive frontend built with **Vue 3 + Three.js**
 <td width="50%">
 
 ### 🤖 AI-Powered Smart Search
+
 Natural language query powered by **RAG architecture**
+
 - Ask questions like "Who graduated in 1990 and works in tech?"
 - Context-aware answers with referenced alumni profiles
 - Multi-provider support: GLM-4, DeepSeek, or any OpenAI-compatible API
@@ -134,7 +138,9 @@ Natural language query powered by **RAG architecture**
 <td width="50%">
 
 ### ⚙️ Admin Dashboard
+
 Complete management backend with **Element Plus**
+
 - Alumni CRUD, batch import/export (Excel supported)
 - Graduation photo management with face tagging
 - Content moderation for messages & comments
@@ -145,7 +151,9 @@ Complete management backend with **Element Plus**
 <td width="50%">
 
 ### 🏗️ Production-Ready Infrastructure
+
 Enterprise-grade deployment out of the box
+
 - **Docker Compose** — One command to production
 - **PM2** — Process management with auto-restart
 - **Nginx** — Reverse proxy with SPA routing
@@ -188,15 +196,15 @@ Enterprise-grade deployment out of the box
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology | Purpose |
-|:------|:-----------|:--------|
-| **Kiosk Frontend** | Vue 3 · TypeScript · Three.js · Tailwind CSS | Touch-screen exhibition with 3D visual effects |
-| **Admin Dashboard** | Vue 3 · TypeScript · Element Plus · XLSX | Alumni data management & system administration |
-| **Backend API** | Node.js · Express · TypeScript | RESTful API with JWT authentication |
-| **Database** | PostgreSQL · pgvector | Relational data + vector embeddings |
-| **Vector Search** | Qdrant | High-performance similarity search for RAG |
-| **AI Engine** | GLM-4 · DeepSeek API | LLM-powered natural language Q&A |
-| **Deployment** | Docker · PM2 · Nginx | Production-grade containerized deployment |
+| Layer               | Technology                                   | Purpose                                        |
+| :------------------ | :------------------------------------------- | :--------------------------------------------- |
+| **Kiosk Frontend**  | Vue 3 · TypeScript · Three.js · Tailwind CSS | Touch-screen exhibition with 3D visual effects |
+| **Admin Dashboard** | Vue 3 · TypeScript · Element Plus · XLSX     | Alumni data management & system administration |
+| **Backend API**     | Node.js · Express · TypeScript               | RESTful API with JWT authentication            |
+| **Database**        | PostgreSQL · pgvector                        | Relational data + vector embeddings            |
+| **Vector Search**   | Qdrant                                       | High-performance similarity search for RAG     |
+| **AI Engine**       | GLM-4 · DeepSeek API                         | LLM-powered natural language Q&A               |
+| **Deployment**      | Docker · PM2 · Nginx                         | Production-grade containerized deployment      |
 
 ---
 
@@ -204,13 +212,13 @@ Enterprise-grade deployment out of the box
 
 ### Prerequisites
 
-| Requirement | Version | Required? |
-|:------------|:--------|:----------|
-| Node.js | ≥ 18 | ✅ Yes |
-| pnpm | ≥ 8 | ✅ Yes |
-| PostgreSQL | ≥ 14 | ✅ Yes (with pgvector recommended) |
-| Qdrant | latest | ⭕ Optional (for AI search) |
-| AI API Key | — | ⭕ Optional (GLM-4 or DeepSeek) |
+| Requirement | Version | Required?                          |
+| :---------- | :------ | :--------------------------------- |
+| Node.js     | ≥ 18    | ✅ Yes                             |
+| pnpm        | ≥ 8     | ✅ Yes                             |
+| PostgreSQL  | ≥ 14    | ✅ Yes (with pgvector recommended) |
+| Qdrant      | latest  | ⭕ Optional (for AI search)        |
+| AI API Key  | —       | ⭕ Optional (GLM-4 or DeepSeek)    |
 
 ### Installation
 
@@ -238,14 +246,14 @@ pnpm dev:admin     # Admin dashboard → http://localhost:5174
 
 ### Key Configuration
 
-| Variable | Description | Default |
-|:---------|:------------|:--------|
-| `SCHOOL_NAME` | School name displayed in UI | `示例中学` |
-| `SCHOOL_LOGO_URL` | Path to school logo | `/logo.png` |
-| `SCHOOL_SINCE` | School founding year | `1917` |
-| `DB_*` | PostgreSQL connection | — |
-| `AI_PROVIDER` | AI provider (`glm` or `deepseek`) | `glm` |
-| `SCREEN_RESOLUTION` | Target kiosk resolution | `1920x1080` |
+| Variable            | Description                       | Default     |
+| :------------------ | :-------------------------------- | :---------- |
+| `SCHOOL_NAME`       | School name displayed in UI       | `示例中学`  |
+| `SCHOOL_LOGO_URL`   | Path to school logo               | `/logo.png` |
+| `SCHOOL_SINCE`      | School founding year              | `1917`      |
+| `DB_*`              | PostgreSQL connection             | —           |
+| `AI_PROVIDER`       | AI provider (`glm` or `deepseek`) | `glm`       |
+| `SCREEN_RESOLUTION` | Target kiosk resolution           | `1920x1080` |
 
 ---
 

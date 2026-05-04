@@ -1,14 +1,14 @@
 {
-  "name": "alumni-query-system",
+  "name": "alumnet",
   "version": "1.0.0",
   "description": "示例学校校史馆智能校友查询系统",
-  "private": true,
   "workspaces": [
     "client",
     "admin",
     "server"
   ],
   "scripts": {
+    "prepare": "husky install",
     "dev:server": "pnpm --filter server dev",
     "dev:client": "pnpm --filter client dev",
     "dev:admin": "pnpm --filter admin dev",
@@ -25,11 +25,27 @@
     "pm2:delete": "pm2 delete all"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.5.3",
+    "@commitlint/config-conventional": "^20.5.3",
+    "@eslint/eslintrc": "^3.3.5",
     "axios": "^1.13.2",
+    "eslint": "^9.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.0.0",
     "typescript": "^5.3.3"
   },
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,vue,js,mjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
   }
 }
