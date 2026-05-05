@@ -1,0 +1,63 @@
+The CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.
+
+[7m[1m[36m RUN [39m[22m[27m [36mv1.6.1[39m [90mD:/github/xyl/alumni/server[39m
+[2m      Coverage enabled with [22m[33mv8[39m
+
+ [32m鉁?[39m tests/unit/middleware/auth.test.ts [2m ([22m[2m21 tests[22m[2m)[22m[90m 36[2mms[22m[39m
+ [32m鉁?[39m tests/unit/services/videoGreetingService.test.ts [2m ([22m[2m14 tests[22m[2m)[22m[90m 15[2mms[22m[39m
+ [32m鉁?[39m tests/unit/services/donationProjectService.test.ts [2m ([22m[2m9 tests[22m[2m)[22m[90m 60[2mms[22m[39m
+ [32m鉁?[39m tests/unit/utils/geometry.test.ts [2m ([22m[2m32 tests[22m[2m)[22m[90m 77[2mms[22m[39m
+ [33m鉂?[39m tests/unit/utils/filters.test.ts [2m ([22m[2m38 tests[22m [2m|[22m [31m2 failed[39m[2m)[22m[90m 166[2mms[22m[39m
+[31m   [33m鉂?[31m tests/unit/utils/filters.test.ts[2m > [22mbuildWhereConditions[2m > [22mshould add department condition when department is provided[39m
+[31m     鈫?expected [] to include '%Engineering%'[39m
+[31m   [33m鉂?[31m tests/unit/utils/filters.test.ts[2m > [22mvalidateFilterMatch[2m > [22mshould match department (case insensitive)[39m
+[31m     鈫?expected true to be false // Object.is equality[39m
+ [32m鉁?[39m tests/unit/services/distinguishedAlumniService.test.ts [2m ([22m[2m9 tests[22m[2m)[22m[90m 160[2mms[22m[39m
+ [32m鉁?[39m tests/unit/services/privacyService.test.ts [2m ([22m[2m22 tests[22m[2m)[22m[33m 353[2mms[22m[39m
+ [32m鉁?[39m tests/properties/interaction-zone.property.test.ts [2m ([22m[2m39 tests[22m[2m)[22m[33m 651[2mms[22m[39m
+ [32m鉁?[39m tests/properties/admin-management.property.test.ts [2m ([22m[2m17 tests[22m[2m)[22m[33m 690[2mms[22m[39m
+ [32m鉁?[39m tests/properties/real-data-integration.property.test.ts [2m ([22m[2m6 tests[22m[2m)[22m[90m 231[2mms[22m[39m
+ [32m鉁?[39m tests/unit/services/graduationPhotoService.test.ts [2m ([22m[2m10 tests[22m[2m)[22m[90m 8[2mms[22m[39m
+ [32m鉁?[39m tests/unit/services/vintageItemService.test.ts [2m ([22m[2m10 tests[22m[2m)[22m[90m 8[2mms[22m[39m
+ [32m鉁?[39m tests/unit/services/messageService.test.ts [2m ([22m[2m11 tests[22m[2m)[22m[90m 64[2mms[22m[39m
+ [32m鉁?[39m tests/properties/top-scholar.property.test.ts [2m ([22m[2m4 tests[22m[2m)[22m[90m 186[2mms[22m[39m
+ [32m鉁?[39m tests/unit/services/alumniService.test.ts [2m ([22m[2m17 tests[22m[2m)[22m[33m 1626[2mms[22m[39m
+ [32m鉁?[39m tests/properties/alumni.property.test.ts [2m ([22m[2m9 tests[22m[2m)[22m[33m 1696[2mms[22m[39m
+ [32m鉁?[39m tests/unit/services/authService.test.ts [2m ([22m[2m14 tests[22m[2m)[22m[90m 78[2mms[22m[39m
+
+鈳幆鈳幆鈳幆鈳?[1m Failed Tests 2 鈳幆鈳幆鈳幆鈳?[39m
+
+ FAIL  tests/unit/utils/filters.test.ts > buildWhereConditions > should add department condition when department is provided
+AssertionError: expected [] to include '%Engineering%'
+ 鉂?[22m tests/unit/utils/filters.test.ts:52:27
+     50|   it('should add department condition when department is provided', ()鈥?     51|     const result = buildWhereConditions({ department: 'Engineering' });
+     52|     expect(result.params).toContain('%Engineering%');
+       |                           ^
+     53|   });
+     54| 
+
+鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆[1/2]鈳?[22m
+
+ FAIL  tests/unit/utils/filters.test.ts > validateFilterMatch > should match department (case insensitive)
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ 鉂?[22m tests/unit/utils/filters.test.ts:197:66
+    195|     const item = { name: 'Test', department: 'Engineering' };
+    196|     expect(validateFilterMatch(item, { department: 'engineering' })).t鈥?    197|     expect(validateFilterMatch(item, { department: 'Science' })).toBe(鈥?       |                                                                  ^
+    198|   });
+    199| 
+
+鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆[2/2]鈳?[22m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m16 passed[39m[22m[90m (17)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m280 passed[39m[22m[90m (282)[39m
+[2m   Start at [22m 02:21:36
+[2m   Duration [22m 3.36s[2m (transform 1.35s, setup 827ms, collect 10.01s, tests 6.11s, environment 5ms, prepare 7.31s)[22m
+
+

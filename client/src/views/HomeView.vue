@@ -356,7 +356,7 @@ alt="示例中学"
             </span>
             <span class="hidden portrait:hidden">DATA CONNECTION: STABLE</span>
           </div>
-          <p class="portrait:text-[10px]">© 2024 JILIN YUWEN HIGH SCHOOL</p>
+          <p class="portrait:text-xs">© 2024 JILIN YUWEN HIGH SCHOOL</p>
         </footer>
       </div>
     </Transition>

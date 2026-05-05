@@ -5,7 +5,7 @@ export type VisibilityLevel = 'public' | 'classmates_only' | 'private';
 export type AlumniStatus = 'active' | 'lost_contact' | 'deceased';
 
 // 用户角色
-export type UserRole = 'guest' | 'verified_alumni' | 'admin';
+export type UserRole = 'guest' | 'verified_alumni' | 'admin' | 'super_admin';
 
 // 留言状态
 export type MessageStatus = 'pending' | 'approved' | 'rejected';

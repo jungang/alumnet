@@ -1,24 +1,23 @@
 import { alumniRepository, SearchCriteria, PagedResult } from '../repositories/alumniRepository';
 import { privacyService } from './privacyService';
 import { Alumni, UserRole } from '../types/models';
+import { withCache, cacheDel } from '../config/cache';
 
 export class AlumniService {
-  // 搜索校友（带隐私过滤）
+  // 搜索校友（带隐私过滤 + 缓存）
   async search(
     criteria: SearchCriteria,
     viewerRole: UserRole,
     viewerClassName?: string
   ): Promise<PagedResult<Alumni>> {
-    const result = await alumniRepository.search(criteria);
-    
-    // 应用隐私过滤
-    result.items = privacyService.filterSensitiveDataBatch(
-      result.items,
-      viewerRole,
-      viewerClassName
-    );
-    
-    return result;
+    const cacheKey = `alumni:search:${JSON.stringify(criteria)}:${viewerRole}`;
+    return withCache(cacheKey, async () => {
+      const result = await alumniRepository.search(criteria);
+      result.items = privacyService.filterSensitiveDataBatch(
+        result.items, viewerRole, viewerClassName
+      );
+      return result;
+    }, 120); // 2分钟缓存
   }
 
   // 获取校友详情（带隐私过滤）
@@ -101,12 +100,14 @@ export class AlumniService {
     classes: string[];
     yearRange: { min: number; max: number };
   }> {
-    const [industries, classes, yearRange] = await Promise.all([
-      alumniRepository.getIndustries(),
-      alumniRepository.getClasses(),
-      alumniRepository.getYearRange(),
-    ]);
-    return { industries, classes, yearRange };
+    return withCache('alumni:filterOptions', async () => {
+      const [industries, classes, yearRange] = await Promise.all([
+        alumniRepository.getIndustries(),
+        alumniRepository.getClasses(),
+        alumniRepository.getYearRange(),
+      ]);
+      return { industries, classes, yearRange };
+    }, 600); // 10分钟缓存
   }
 }
 

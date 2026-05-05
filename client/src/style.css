@@ -62,6 +62,55 @@
   --page-padding: 2.5rem;
   --header-gap: 1.5rem;
   --content-gap: 1.5rem;
+
+  /* ========================================
+     语义化 Design Token
+     ======================================== */
+  /* 状态色 */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  /* 间距 */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+
+  /* 圆角 */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* 字体 */
+  --font-sans: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+  --font-display: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 20px var(--shadow-color);
+
+  /* 过渡 */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+
+  /* z-index 层级 */
+  --z-base: 0;
+  --z-card: 10;
+  --z-sticky: 30;
+  --z-overlay: 40;
+  --z-modal: 50;
+  --z-nav: 60;
+  --z-tooltip: 70;
 }
 
 /* ========================================
@@ -742,10 +791,25 @@ button, a, .clickable {
   gap: var(--content-gap);
 }
 
-/* 触控目标最小尺寸 */
+/* 触控目标最小尺寸 — WCAG 2.5.8 / Mobile 指南 ≥48px */
 .touch-target {
   min-width: var(--touch-target-size);
   min-height: var(--touch-target-size);
+}
+
+/* 竖屏/移动端强制触控目标 ≥48px */
+@media screen and (orientation: portrait) {
+  .touch-target {
+    min-width: 48px;
+    min-height: 48px;
+  }
+}
+
+/* 最小字体可读性保障：portrait 模式下 font-size 不低于 12px */
+@media screen and (orientation: portrait) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
 }
 
 /* 页面内边距 */

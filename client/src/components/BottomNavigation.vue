@@ -37,6 +37,8 @@ function goHome() {
     :class="[
       'bg-[var(--bg-secondary)]/90 border-[var(--border-color)]'
     ]"
+    role="navigation"
+    aria-label="主导航"
   >
     <div class="flex items-center justify-around h-16 portrait:h-14 px-2 max-w-4xl mx-auto">
       <!-- 首页按钮 -->
@@ -48,12 +50,14 @@ function goHome() {
             ? 'text-[var(--color-teal)] bg-[var(--color-teal)]/10' 
             : 'text-[var(--text-muted)] hover:text-[var(--color-teal)] hover:bg-[var(--color-teal)]/5'
         ]"
-        title="首页"
+        role="link"
+        aria-label="首页"
+        aria-current="page"
       >
         <svg class="w-6 h-6 portrait:w-5 portrait:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
         </svg>
-        <span class="text-[10px] portrait:text-[8px] mt-1 font-medium">首页</span>
+        <span class="text-xs portrait:text-xs mt-1 font-medium">首页</span>
       </button>
 
       <!-- 分隔线 -->
@@ -98,7 +102,7 @@ function goHome() {
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11" />
         </svg>
         
-        <span class="text-[10px] portrait:text-[8px] mt-1 font-medium truncate max-w-[48px]">{{ module.label }}</span>
+        <span class="text-xs portrait:text-xs mt-1 font-medium truncate max-w-[48px]">{{ module.label }}</span>
       </button>
     </div>
     

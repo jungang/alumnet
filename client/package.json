@@ -7,16 +7,17 @@
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint src --ext .vue,.ts",
+    "lint": "eslint src",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "lint:fix": "eslint src --fix"
   },
   "dependencies": {
     "@vueuse/core": "^10.7.0",
     "axios": "^1.6.2",
     "gsap": "^3.14.2",
     "pinia": "^2.1.7",
-    "three": "^0.160.0",
+    "three": "^0.160.1",
     "vue": "^3.4.0",
     "vue-router": "^4.2.5"
   },
@@ -30,7 +31,7 @@
     "autoprefixer": "^10.4.16",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-vue": "^9.0.0",
+    "eslint-plugin-vue": "^9.33.0",
     "fast-check": "^3.15.0",
     "happy-dom": "^13.3.1",
     "postcss": "^8.4.32",
@@ -39,6 +40,7 @@
     "typescript": "^5.3.3",
     "vite": "^5.0.10",
     "vitest": "^1.2.0",
+    "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "^3.1.8"
   }
 }

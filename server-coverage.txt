@@ -1,0 +1,62 @@
+The CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.
+
+ RUN  v1.6.1 D:/github/xyl/alumni/server
+      Coverage enabled with v8
+
+ 鉁?[39m tests/unit/middleware/auth.test.ts  (21 tests) 17ms
+ 鉁?[39m tests/unit/services/donationProjectService.test.ts  (9 tests) 57ms
+ 鉁?[39m tests/unit/services/videoGreetingService.test.ts  (14 tests) 14ms
+ 鉁?[39m tests/unit/utils/geometry.test.ts  (32 tests) 59ms
+ 鉂?[39m tests/unit/utils/filters.test.ts  (38 tests | 2 failed) 128ms
+   鉂?[31m tests/unit/utils/filters.test.ts > buildWhereConditions > should add department condition when department is provided
+     鈫?expected [] to include '%Engineering%'
+   鉂?[31m tests/unit/utils/filters.test.ts > validateFilterMatch > should match department (case insensitive)
+     鈫?expected true to be false // Object.is equality
+ 鉁?[39m tests/unit/services/distinguishedAlumniService.test.ts  (9 tests) 164ms
+ 鉁?[39m tests/unit/services/privacyService.test.ts  (22 tests) 338ms
+ 鉁?[39m tests/properties/interaction-zone.property.test.ts  (39 tests) 721ms
+ 鉁?[39m tests/properties/admin-management.property.test.ts  (17 tests) 773ms
+ 鉁?[39m tests/properties/real-data-integration.property.test.ts  (6 tests) 223ms
+ 鉁?[39m tests/unit/services/vintageItemService.test.ts  (10 tests) 10ms
+ 鉁?[39m tests/properties/top-scholar.property.test.ts  (4 tests) 171ms
+ 鉁?[39m tests/unit/services/graduationPhotoService.test.ts  (10 tests) 13ms
+ 鉁?[39m tests/unit/services/messageService.test.ts  (11 tests) 64ms
+ 鉁?[39m tests/unit/services/authService.test.ts  (14 tests) 82ms
+ 鉁?[39m tests/properties/alumni.property.test.ts  (9 tests) 1657ms
+ 鉁?[39m tests/unit/services/alumniService.test.ts  (17 tests) 1517ms
+
+鈳幆鈳幆鈳幆鈳?[1m Failed Tests 2 鈳幆鈳幆鈳幆鈳?[39m
+System.Management.Automation.RemoteException
+ FAIL  tests/unit/utils/filters.test.ts > buildWhereConditions > should add department condition when department is provided
+AssertionError: expected [] to include '%Engineering%'
+ 鉂?[22m tests/unit/utils/filters.test.ts:52:27
+     50|   it('should add department condition when department is provided', ()鈥?     51|     const result = buildWhereConditions({ department: 'Engineering' });
+     52|     expect(result.params).toContain('%Engineering%');
+       |                           ^
+     53|   });
+     54| 
+System.Management.Automation.RemoteException
+鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆[1/2]鈳?[22m
+System.Management.Automation.RemoteException
+ FAIL  tests/unit/utils/filters.test.ts > validateFilterMatch > should match department (case insensitive)
+AssertionError: expected true to be false // Object.is equality
+System.Management.Automation.RemoteException
+- Expected
++ Received
+System.Management.Automation.RemoteException
+- false
++ true
+System.Management.Automation.RemoteException
+ 鉂?[22m tests/unit/utils/filters.test.ts:197:66
+    195|     const item = { name: 'Test', department: 'Engineering' };
+    196|     expect(validateFilterMatch(item, { department: 'engineering' })).t鈥?    197|     expect(validateFilterMatch(item, { department: 'Science' })).toBe(鈥?       |                                                                  ^
+    198|   });
+    199| 
+System.Management.Automation.RemoteException
+鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆鈳幆[2/2]鈳?[22m
+System.Management.Automation.RemoteException
+ Test Files  1 failed | 16 passed (17)
+      Tests  2 failed | 280 passed (282)
+   Start at  02:23:29
+   Duration  3.41s (transform 1.62s, setup 851ms, collect 10.23s, tests 6.01s, environment 9ms, prepare 7.80s)
+

@@ -1,7 +1,9 @@
 import { Router, Request, Response } from 'express';
 import { alumniService } from '../services/alumniService';
 import { ragService } from '../services/ragService';
+import { ragLimiter } from '../middleware/rateLimit';
 import { authMiddleware, AuthRequest } from '../middleware/auth';
+import { validate, ragQuerySchema } from '../validation/schemas';
 
 const router: Router = Router();
 
@@ -61,7 +63,7 @@ router.get('/search', async (req: Request, res: Response) => {
 });
 
 // RAG智能查询 - 公开接口，供触控展示端使用
-router.post('/rag-query', async (req: Request, res: Response) => {
+router.post('/rag-query', ragLimiter, validate(ragQuerySchema), async (req: Request, res: Response) => {
   try {
     const { query } = req.body;
     if (!query) {

@@ -56,6 +56,11 @@ const router = createRouter({
       name: 'class-roster-wall',
       component: () => import('@/views/ClassRosterWallView.vue'),
     },
+    {
+      path: '/self-service',
+      name: 'self-service',
+      component: () => import('@/views/SelfServiceView.vue'),
+    },
     // 状元榜重定向到校友风采页面
     {
       path: '/top-scholars',

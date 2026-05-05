@@ -112,7 +112,7 @@ onMounted(() => {
           </button>
           <div>
             <h1 class="text-3xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-500">老物件数字馆</h1>
-            <p class="text-[10px] text-amber-200/40 font-mono tracking-[0.3em] uppercase">Vintage Museum · Digital Archive</p>
+            <p class="text-xs text-amber-200/50 font-mono tracking-[0.3em] uppercase">Vintage Museum · Digital Archive</p>
           </div>
         </div>
         <div class="hidden md:flex items-center gap-2 text-xs font-mono text-amber-500/50">
@@ -171,7 +171,7 @@ onMounted(() => {
             <div class="p-4 portrait:p-3">
               <div class="flex items-center gap-2 portrait:gap-1 mb-1">
                 <span class="text-lg portrait:text-base">{{ typeIcons[item.item_type || item.itemType] || '📦' }}</span>
-                <span class="text-xs portrait:text-[10px] text-amber-400/60">{{ typeLabels[item.item_type || item.itemType] || '其他' }}</span>
+                <span class="text-xs portrait:text-xs text-amber-400/60">{{ typeLabels[item.item_type || item.itemType] || '其他' }}</span>
               </div>
               <h3 class="text-white font-semibold truncate portrait:text-sm">{{ item.name }}</h3>
               <p v-if="item.era" class="text-amber-400/60 text-sm portrait:text-xs">{{ item.era }}</p>

@@ -3,16 +3,25 @@ import { ref, onMounted, onUnmounted, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '@/api';
 import { contentApi } from '@/api';
+import { useNavigationStore } from '@/stores/navigation';
 import AIChatDialog from '@/components/AIChatDialog.vue';
 import BottomNavigation from '@/components/BottomNavigation.vue';
 import ThemeToggle from '@/components/ThemeToggle.vue';
 import { useThemeStore } from '@/stores/theme';
+import { useSwipe } from '@/composables/useSwipe';
 
 // AI 对话弹窗状态
 const showAIChat = ref(false);
 
 // --- 核心状态 ---
 const router = useRouter();
+const navigationStore = useNavigationStore();
+
+// 下拉刷新手势
+const { swipeHandlers: searchSwipeHandlers } = useSwipe({
+  pullDownThreshold: 80,
+  onPullDown: () => handleSearch(),
+});
 const themeStore = useThemeStore();
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 
@@ -105,6 +114,7 @@ const handleAISelectAlumni = (alumni: any) => {
 };
 
 const viewDetail = (id: string) => {
+  navigationStore.enterDetail('search', '/search');
   router.push(`/alumni/${id}`);
 };
 
@@ -197,7 +207,7 @@ onUnmounted(() => {
       :class="isDark ? 'bg-gradient-to-b from-transparent via-transparent to-black/80' : 'bg-gradient-to-b from-transparent via-transparent to-[#f5f0ea]/80'"
     ></div>
 
-    <div class="relative z-10 w-full p-6 lg:p-10 flex flex-col h-screen">
+    <div class="relative z-10 w-full p-6 lg:p-10 flex flex-col h-screen" v-on="searchSwipeHandlers">
       <!-- 顶部导航 -->
       <header 
         class="flex items-center justify-between portrait:flex-col portrait:items-start portrait:gap-3 mb-8 portrait:mb-4 pb-4 border-b shrink-0 transition-colors duration-300"
@@ -224,9 +234,9 @@ onUnmounted(() => {
               class="text-3xl portrait:text-2xl font-bold tracking-wide text-transparent bg-clip-text"
               :class="isDark ? 'bg-gradient-to-r from-teal-300 to-cyan-500' : 'bg-gradient-to-r from-[#8b2500] to-[#a63c1c]'"
             >智能查询</h1>
-            <p 
-              class="text-[10px] portrait:text-[8px] font-mono tracking-[0.3em] uppercase portrait:hidden"
-              :class="isDark ? 'text-teal-200/40' : 'text-[#8b2500]/40'"
+            <p class="text-xs transition-colors duration-300 portrait:hidden"
+              :class="isDark ? 'text-teal-200/50' : 'text-[#8b2500]/50'"
+              style="font-family: monospace; letter-spacing: 0.3em; text-transform: uppercase;"
             >Alumni Database Query System</p>
           </div>
         </div>
@@ -405,8 +415,8 @@ onUnmounted(() => {
                     <img :src="alumni.photoUrl" :alt="alumni.name" class="w-full h-full object-cover" />
                   </div>
                   <h4 class="font-bold text-sm mb-1 group-hover:text-teal-400 transition-colors" :class="isDark ? 'text-white' : 'text-[#2d1810]'">{{ alumni.name }}</h4>
-                  <p class="text-[10px] mb-2" :class="isDark ? 'text-gray-400' : 'text-[#8b2500]/60'">{{ alumni.graduation_year }}届</p>
-                  <span class="text-[10px] px-2 py-0.5 rounded-full" :class="isDark ? 'bg-purple-500/20 text-purple-300' : 'bg-[#8b2500]/10 text-[#8b2500]'">
+                  <p class="text-xs mb-2" :class="isDark ? 'text-gray-400' : 'text-[#8b2500]/60'">{{ alumni.graduation_year }}届</p>
+                  <span class="text-xs px-2 py-0.5 rounded-full" :class="isDark ? 'bg-purple-500/20 text-purple-300' : 'bg-[#8b2500]/10 text-[#8b2500]'">
                     {{ alumni.category }}
                   </span>
                 </div>
@@ -457,7 +467,7 @@ onUnmounted(() => {
                     <div class="flex-1 min-w-0">
                       <div class="flex justify-between items-start">
                         <h3 class="text-lg font-bold group-hover:text-teal-300 transition-colors truncate" :class="isDark ? 'text-white' : 'text-[#2d1810]'">{{ item.name }}</h3>
-                        <span class="text-[10px] px-2 py-0.5 rounded border font-mono" :class="isDark ? 'border-teal-500/20 bg-teal-500/10 text-teal-300' : 'border-[#8b2500]/20 bg-[#8b2500]/10 text-[#8b2500]'">{{ item.graduationYear }}届</span>
+                        <span class="text-xs px-2 py-0.5 rounded border font-mono" :class="isDark ? 'border-teal-500/20 bg-teal-500/10 text-teal-300' : 'border-[#8b2500]/20 bg-[#8b2500]/10 text-[#8b2500]'">{{ item.graduationYear }}届</span>
                       </div>
                       <div class="mt-2 space-y-1">
                         <p v-if="item.className" class="text-xs flex items-center gap-2" :class="isDark ? 'text-gray-400' : 'text-[#8b2500]/60'">
@@ -474,13 +484,13 @@ onUnmounted(() => {
                   </div>
                   <!-- 标签 -->
                   <div v-if="item.extraInfo?.category" class="mt-4 pt-3 border-t" :class="isDark ? 'border-white/5' : 'border-[#8b2500]/10'">
-                    <span class="text-[10px] px-2 py-1 rounded border" :class="isDark ? 'bg-purple-500/10 text-purple-300 border-purple-500/20' : 'bg-[#8b2500]/10 text-[#8b2500] border-[#8b2500]/20'">{{ item.extraInfo.category }}</span>
+                    <span class="text-xs px-2 py-1 rounded border" :class="isDark ? 'bg-purple-500/10 text-purple-300 border-purple-500/20' : 'bg-[#8b2500]/10 text-[#8b2500] border-[#8b2500]/20'">{{ item.extraInfo.category }}</span>
                   </div>
                 </div>
               </div>
 
               <!-- 空状态 -->
-              <div v-if="searchResults.length === 0 && !isSearching" class="h-64 flex flex-col items-center justify-center" :class="isDark ? 'text-white/30' : 'text-[#8b2500]/30'">
+              <div v-if="searchResults.length === 0 && !isSearching" class="h-64 flex flex-col items-center justify-center" :class="isDark ? 'text-white/50' : 'text-[#8b2500]/50'">
                 <svg class="w-16 h-16 mb-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>

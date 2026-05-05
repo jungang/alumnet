@@ -105,7 +105,7 @@ onMounted(() => {
           </button>
           <div>
             <h1 class="text-3xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-purple-500">班级名录墙</h1>
-            <p class="text-[10px] text-indigo-200/40 font-mono tracking-[0.3em] uppercase">Class Roster Wall · Alumni Directory</p>
+            <p class="text-xs text-indigo-200/50 font-mono tracking-[0.3em] uppercase">Class Roster Wall · Alumni Directory</p>
           </div>
         </div>
         <div class="hidden md:flex items-center gap-2 text-xs font-mono text-indigo-500/50">
@@ -252,12 +252,12 @@ onMounted(() => {
                   ]"
                 >
                   <div class="flex items-center gap-2">
-                    <span v-if="student.seat_number || student.seatNumber" class="text-xs portrait:text-[10px] text-indigo-400/50">
+                    <span v-if="student.seat_number || student.seatNumber" class="text-xs portrait:text-xs text-indigo-400/50">
                       {{ student.seat_number || student.seatNumber }}号
                     </span>
                     <span class="text-white portrait:text-sm">{{ student.student_name || student.studentName }}</span>
                   </div>
-                  <p v-if="student.student_id || student.studentId" class="text-xs portrait:text-[10px] text-white/40 mt-1">
+                  <p v-if="student.student_id || student.studentId" class="text-xs portrait:text-xs text-white/50 mt-1">
                     学号：{{ student.student_id || student.studentId }}
                   </p>
                 </div>

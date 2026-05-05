@@ -3,12 +3,14 @@ import { onMounted, computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAlumniStore } from '@/stores/alumni';
 import { useThemeStore } from '@/stores/theme';
+import { useNavigationStore } from '@/stores/navigation';
 import ThemeToggle from '@/components/ThemeToggle.vue';
 
 const route = useRoute();
 const router = useRouter();
 const alumniStore = useAlumniStore();
 const themeStore = useThemeStore();
+const navigationStore = useNavigationStore();
 
 const alumniId = computed(() => route.params.id as string);
 const isDark = computed(() => themeStore.isDark);
@@ -39,7 +41,12 @@ onMounted(async () => {
 });
 
 function goBack() {
-  router.back();
+  // 优先返回来源模块，否则用浏览器后退
+  if (navigationStore.returnToPath) {
+    navigationStore.returnFromDetail(router);
+  } else {
+    router.back();
+  }
 }
 
 function viewAlumni(id: string) {
@@ -104,7 +111,7 @@ function getBiography(alumni: any) {
                 : 'bg-gradient-to-r from-[#8b2500] to-[#a63c1c]'"
             >校友档案</h1>
             <p 
-              class="text-[10px] font-mono tracking-[0.3em] uppercase transition-colors duration-500"
+              class="text-xs font-mono tracking-[0.3em] uppercase transition-colors duration-500"
               :class="isDark ? 'text-teal-200/40' : 'text-[#8b2500]/40'"
             >Alumni Profile Detail</p>
           </div>

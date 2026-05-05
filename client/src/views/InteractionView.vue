@@ -209,7 +209,7 @@ onMounted(() => {
           </button>
           <div>
             <h1 class="text-3xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-cyan-500">互动寄语</h1>
-            <p class="text-[10px] text-teal-200/40 font-mono tracking-[0.3em] uppercase">Messages & Alumni Search</p>
+            <p class="text-xs text-teal-200/50 font-mono tracking-[0.3em] uppercase">Messages & Alumni Search</p>
           </div>
         </div>
         <div class="hidden md:flex items-center gap-2 text-xs font-mono text-teal-500/50">
@@ -260,7 +260,7 @@ onMounted(() => {
       <!-- 留言板 -->
       <div v-if="activeTab === 'messages'" class="space-y-6">
         <!-- 分类统计 - 竖屏可换行 -->
-        <div class="flex flex-wrap gap-4 portrait:gap-2 mb-4">
+        <div class="flex flex-wrap gap-4 portrait:gap-2 mb-4" role="tablist" aria-label="留言分类">
           <button
             @click="filterCategory = ''; loadMessages()"
             :class="[
@@ -319,11 +319,12 @@ onMounted(() => {
         </div>
 
         <!-- 留言列表 -->
-        <div class="space-y-4">
+        <div class="space-y-4" role="list" aria-label="留言列表">
           <div
             v-for="msg in filteredMessages"
             :key="msg.id"
             class="glass-card rounded-xl p-4"
+            role="listitem"
           >
             <div class="flex items-start gap-3">
               <div class="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center text-white font-bold shadow-lg shadow-teal-500/30">
@@ -473,7 +474,7 @@ onMounted(() => {
               </div>
               <div class="absolute bottom-0 left-0 right-0 p-3 portrait:p-2 bg-gradient-to-t from-black/80">
                 <p class="text-white font-semibold text-sm portrait:text-xs truncate">{{ video.title }}</p>
-                <p class="text-teal-300/60 text-xs portrait:text-[10px]">{{ video.alumniName }}</p>
+                <p class="text-teal-300/60 text-xs portrait:text-xs">{{ video.alumniName }}</p>
               </div>
             </div>
           </div>
@@ -507,7 +508,7 @@ onMounted(() => {
               </div>
               <div class="p-2 portrait:p-1.5">
                 <p class="text-white text-sm portrait:text-xs truncate">{{ video.title }}</p>
-                <p class="text-teal-300/60 text-xs portrait:text-[10px]">{{ video.alumniName }} · {{ video.viewCount || 0 }}次观看</p>
+                <p class="text-teal-300/60 text-xs portrait:text-xs">{{ video.alumniName }} · {{ video.viewCount || 0 }}次观看</p>
               </div>
             </div>
           </div>

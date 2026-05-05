@@ -77,7 +77,7 @@ onMounted(() => {
           </button>
           <div>
             <h1 class="text-3xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-cyan-500">时空长廊</h1>
-            <p class="text-[10px] text-teal-200/40 font-mono tracking-[0.3em] uppercase">Time Corridor · Graduation Photos</p>
+            <p class="text-xs text-teal-200/50 font-mono tracking-[0.3em] uppercase">Time Corridor · Graduation Photos</p>
           </div>
         </div>
         <div class="hidden md:flex items-center gap-2 text-xs font-mono text-teal-500/50">

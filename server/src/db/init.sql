@@ -218,5 +218,9 @@ INSERT INTO system_config (config_key, config_value, config_type, description) V
     ('rag_retrieval_count', '5', 'number', 'RAG检索返回数量'),
     ('rag_max_response_length', '500', 'number', 'AI回答最大长度'),
     ('site_title', '校友查询系统', 'string', '系统标题'),
-    ('welcome_message', '欢迎来到校史馆校友查询系统', 'string', '欢迎语')
+    ('welcome_message', '欢迎来到校史馆校友查询系统', 'string', '欢迎语'),
+    ('school_name', '示例中学', 'string', '学校名称（用于AI人设和展示）'),
+    ('school_since', '1917', 'string', '学校创建年份'),
+    ('school_motto', '德才兼备', 'string', '校训'),
+    ('rag_system_prompt', '', 'string', '自定义AI人设Prompt（留空使用默认，支持 {school_name} {school_since} {school_motto} 变量）')
 ON CONFLICT (config_key) DO NOTHING;

@@ -5,6 +5,7 @@ import { messageService } from '../services/messageService';
 import { searchNoticeService } from '../services/searchNoticeService';
 import { videoGreetingService } from '../services/videoGreetingService';
 import { topScholarService } from '../services/topScholarService';
+import { donationService } from '../services/donationService';
 import { MessageCategory } from '../types/models';
 
 const router: Router = Router();
@@ -829,5 +830,47 @@ router.get('/top-scholars/:id', async (req, res: Response) => {
   } catch (error) {
     console.error('获取状元详情失败:', error);
     res.status(500).json({ success: false, message: '获取状元详情失败' });
+  }
+});
+
+// ========== 捐赠公示（公开） ==========
+
+router.get('/donations', async (_req, res: Response) => {
+  try {
+    const projects = await donationService.getPublicProjects();
+    res.json({ success: true, data: projects });
+  } catch (error) {
+    res.status(500).json({ success: false, message: '获取捐赠项目失败' });
+  }
+});
+
+router.get('/donations/:projectId/records', async (req, res: Response) => {
+  try {
+    const records = await donationService.getPublicRecords(req.params.projectId);
+    res.json({ success: true, data: records });
+  } catch (error) {
+    res.status(500).json({ success: false, message: '获取捐赠记录失败' });
+  }
+});
+
+router.post('/donations/:projectId/thank-you', async (req, res: Response) => {
+  try {
+    const { donorName, amount } = req.body;
+    if (!donorName || !amount) return res.status(400).json({ success: false, message: '缺少捐赠人信息' });
+    const letter = donationService.generateThankYouLetter(donorName, amount, req.params.projectId);
+    res.json({ success: true, data: { letter } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: '生成感谢信失败' });
+  }
+});
+
+router.post('/donations/:projectId/certificate', async (req, res: Response) => {
+  try {
+    const { donorName, amount } = req.body;
+    if (!donorName || !amount) return res.status(400).json({ success: false, message: '缺少捐赠人信息' });
+    const cert = donationService.generateCertificate(donorName, amount, req.params.projectId);
+    res.json({ success: true, data: { certificate: cert } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: '生成证书失败' });
   }
 });

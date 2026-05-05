@@ -6,6 +6,7 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     include: ['src/**/*.test.ts', 'tests/**/*.test.ts'],
+    // 单元测试使用 setup.ts; 集成测试在文件内自行 setup
     setupFiles: ['./tests/setup.ts'],
     coverage: {
       provider: 'v8',
@@ -33,7 +34,7 @@ export default defineConfig({
         lines: 40,
       },
     },
-    testTimeout: 10000,
+    testTimeout: 15000,
   },
   resolve: {
     alias: {

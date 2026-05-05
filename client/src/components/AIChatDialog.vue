@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { ref, nextTick, watch } from 'vue';
+import { ref, nextTick, watch, computed } from 'vue';
 import api from '@/api';
+import { useThemeStore } from '@/stores/theme';
+
+const themeStore = useThemeStore();
+const isDark = computed(() => themeStore.isDark);
 
 const props = defineProps<{
   visible: boolean;
@@ -127,33 +131,40 @@ const handleKeydown = (e: KeyboardEvent) => {
   <Teleport to="body">
     <Transition name="dialog">
       <div v-if="visible" class="fixed inset-0 z-50 flex items-center justify-center">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" @click="emit('close')"></div>
+        <div class="absolute inset-0 backdrop-blur-sm" :class="isDark ? 'bg-black/80' : 'bg-black/50'" @click="emit('close')"></div>
         
         <!-- 竖屏时全屏显示 -->
-        <div class="relative w-full max-w-4xl portrait:max-w-none h-[85vh] portrait:h-full mx-4 portrait:mx-0 bg-[#0a0f1a] border border-teal-500/20 portrait:border-0 rounded-2xl portrait:rounded-none shadow-2xl shadow-teal-500/10 flex flex-col overflow-hidden">
-          <header class="flex items-center justify-between px-6 portrait:px-4 py-4 portrait:py-3 border-b border-teal-500/20 bg-gradient-to-r from-teal-900/20 to-transparent shrink-0">
+        <div class="relative w-full max-w-4xl portrait:max-w-none h-[85vh] portrait:h-full mx-4 portrait:mx-0 border portrait:border-0 rounded-2xl portrait:rounded-none shadow-2xl flex flex-col overflow-hidden transition-colors duration-300"
+          :class="isDark ? 'bg-[#0a0f1a] border-teal-500/20 shadow-teal-500/10' : 'bg-[#faf8f5] border-[#8b2500]/20 shadow-[#8b2500]/10'"
+        >
+          <header class="flex items-center justify-between px-6 portrait:px-4 py-4 portrait:py-3 shrink-0 transition-colors duration-300"
+            :class="isDark ? 'border-b border-teal-500/20 bg-gradient-to-r from-teal-900/20 to-transparent' : 'border-b border-[#8b2500]/20 bg-gradient-to-r from-[#8b2500]/10 to-transparent'"
+          >
             <div class="flex items-center gap-4 portrait:gap-3">
-              <div class="w-12 h-12 portrait:w-10 portrait:h-10 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-teal-500/30">
+              <div class="w-12 h-12 portrait:w-10 portrait:h-10 rounded-full flex items-center justify-center shadow-lg transition-colors duration-300"
+                :class="isDark ? 'bg-gradient-to-br from-teal-500 to-cyan-600 shadow-teal-500/30' : 'bg-gradient-to-br from-[#8b2500] to-[#a63c1c] shadow-[#8b2500]/30'"
+              >
                 <svg class="w-6 h-6 portrait:w-5 portrait:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
               <div>
-                <h2 class="text-xl portrait:text-lg font-bold text-white">AI 智能助手</h2>
-                <p class="text-xs portrait:text-[10px] text-teal-400/60 font-mono portrait:hidden">Yuwen Alumni AI Assistant v2.0</p>
+                <h2 class="text-xl portrait:text-lg font-bold transition-colors duration-300" :class="isDark ? 'text-white' : 'text-[#2d1810]'">AI 智能助手</h2>
+                <p class="text-xs transition-colors duration-300 portrait:hidden" :class="isDark ? 'text-teal-400/60' : 'text-[#8b2500]/60'" style="font-family: monospace;">Yuwen Alumni AI Assistant v2.0</p>
               </div>
             </div>
             <div class="flex items-center gap-3 portrait:gap-2">
-              <button @click="clearChat" class="px-3 py-1.5 portrait:px-2 portrait:py-1 text-xs text-teal-400/70 hover:text-teal-300 hover:bg-teal-500/10 rounded-lg transition-colors">清空</button>
-              <button @click="emit('close')" class="w-10 h-10 portrait:w-9 portrait:h-9 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors group touch-target">
-                <svg class="w-5 h-5 text-white/60 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <button @click="clearChat" class="px-3 py-1.5 portrait:px-2 portrait:py-1 text-xs rounded-lg transition-colors touch-target" :class="isDark ? 'text-teal-400/70 hover:text-teal-300 hover:bg-teal-500/10' : 'text-[#8b2500]/70 hover:text-[#8b2500] hover:bg-[#8b2500]/10'">清空</button>
+              <button @click="emit('close')" class="w-10 h-10 portrait:w-9 portrait:h-9 rounded-full flex items-center justify-center transition-colors group touch-target" :class="isDark ? 'hover:bg-white/10' : 'hover:bg-[#8b2500]/10'">
+                <svg class="w-5 h-5 transition-colors" :class="isDark ? 'text-white/60 group-hover:text-white' : 'text-[#2d1810]/60 group-hover:text-[#2d1810]'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
           </header>
 
-          <div ref="chatContainerRef" class="flex-1 overflow-y-auto p-6 portrait:p-4 space-y-6 portrait:space-y-4 custom-scrollbar">
+          <div ref="chatContainerRef" class="flex-1 overflow-y-auto p-6 portrait:p-4 space-y-6 portrait:space-y-4 custom-scrollbar"
+            role="log" aria-label="对话消息" aria-live="polite">
             <div v-for="msg in messages" :key="msg.id" class="flex gap-4" :class="msg.role === 'user' ? 'flex-row-reverse' : ''">
               <div class="shrink-0">
                 <div v-if="msg.role === 'user'" class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
@@ -161,7 +172,7 @@ const handleKeydown = (e: KeyboardEvent) => {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </div>
-                <div v-else class="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center">
+                <div v-else class="w-10 h-10 rounded-full flex items-center justify-center" :class="isDark ? 'bg-gradient-to-br from-teal-500 to-cyan-600' : 'bg-gradient-to-br from-[#8b2500] to-[#a63c1c]'">
                   <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                   </svg>
@@ -171,15 +182,21 @@ const handleKeydown = (e: KeyboardEvent) => {
               <div class="flex-1 max-w-[80%]" :class="msg.role === 'user' ? 'text-right' : ''">
                 <div 
                   class="inline-block px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap"
-                  :class="msg.role === 'user' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-tr-sm' : 'bg-white/5 border border-white/10 text-gray-200 rounded-tl-sm'"
+                  :class="[
+                    msg.role === 'user' 
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-tr-sm' 
+                      : isDark 
+                        ? 'bg-white/5 border border-white/10 text-gray-200 rounded-tl-sm' 
+                        : 'bg-white/80 border border-[#8b2500]/10 text-[#2d1810] rounded-tl-sm'
+                  ]"
                 >
                   <div v-if="msg.isLoading" class="flex items-center gap-2">
                     <div class="flex gap-1">
-                      <span class="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style="animation-delay: 0ms"></span>
-                      <span class="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style="animation-delay: 150ms"></span>
-                      <span class="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style="animation-delay: 300ms"></span>
+                      <span class="w-2 h-2 rounded-full animate-bounce" :class="isDark ? 'bg-teal-400' : 'bg-[#8b2500]'" style="animation-delay: 0ms"></span>
+                      <span class="w-2 h-2 rounded-full animate-bounce" :class="isDark ? 'bg-teal-400' : 'bg-[#8b2500]'" style="animation-delay: 150ms"></span>
+                      <span class="w-2 h-2 rounded-full animate-bounce" :class="isDark ? 'bg-teal-400' : 'bg-[#8b2500]'" style="animation-delay: 300ms"></span>
                     </div>
-                    <span class="text-teal-400/70">思考中...</span>
+                    <span :class="isDark ? 'text-teal-400/70' : 'text-[#8b2500]/70'">思考中...</span>
                   </div>
                   <template v-else>{{ msg.content }}</template>
                 </div>
@@ -189,21 +206,22 @@ const handleKeydown = (e: KeyboardEvent) => {
                     v-for="alumni in msg.relatedAlumni.slice(0, 4)" 
                     :key="alumni.id"
                     @click="handleAlumniClick(alumni)"
-                    class="p-3 bg-white/5 border border-teal-500/20 rounded-xl cursor-pointer hover:bg-teal-500/10 hover:border-teal-400/40 transition-all group"
+                    class="p-3 rounded-xl cursor-pointer transition-all group touch-target"
+                    :class="isDark ? 'bg-white/5 border border-teal-500/20 hover:bg-teal-500/10 hover:border-teal-400/40' : 'bg-white/80 border border-[#8b2500]/15 hover:bg-[#8b2500]/5 hover:border-[#8b2500]/30'"
                   >
                     <div class="flex items-center gap-3">
-                      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-teal-600 to-cyan-700 flex items-center justify-center text-white font-bold">
+                      <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold" :class="isDark ? 'bg-gradient-to-br from-teal-600 to-cyan-700' : 'bg-gradient-to-br from-[#8b2500] to-[#a63c1c]'">
                         {{ alumni.name?.[0] || '?' }}
                       </div>
                       <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-white group-hover:text-teal-300 truncate">{{ alumni.name }}</p>
-                        <p class="text-xs text-gray-500">{{ alumni.graduationYear }}届 · {{ alumni.className || alumni.industry || '' }}</p>
+                        <p class="text-sm font-medium truncate transition-colors" :class="isDark ? 'text-white group-hover:text-teal-300' : 'text-[#2d1810] group-hover:text-[#8b2500]'">{{ alumni.name }}</p>
+                        <p class="text-xs" :class="isDark ? 'text-gray-500' : 'text-[#8b2500]/60'">{{ alumni.graduationYear }}届 · {{ alumni.className || alumni.industry || '' }}</p>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <p class="text-[10px] text-white/30 mt-2 font-mono">
+                <p class="text-xs mt-2" style="font-family: monospace;" :class="isDark ? 'text-white/50' : 'text-[#2d1810]/50'">
                   {{ msg.timestamp.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) }}
                 </p>
               </div>
@@ -211,18 +229,21 @@ const handleKeydown = (e: KeyboardEvent) => {
           </div>
 
           <div v-if="messages.length <= 2" class="px-6 pb-4">
-            <p class="text-xs text-white/40 mb-3">快捷提问：</p>
+            <p class="text-xs mb-3" :class="isDark ? 'text-white/50' : 'text-[#2d1810]/50'">快捷提问：</p>
             <div class="flex flex-wrap gap-2">
               <button 
                 v-for="q in quickQuestions" 
                 :key="q"
                 @click="askQuickQuestion(q)"
-                class="px-3 py-1.5 text-xs bg-teal-500/10 border border-teal-500/20 text-teal-300 rounded-full hover:bg-teal-500/20 hover:border-teal-400/40 transition-all"
+                class="px-3 py-2 text-xs rounded-full transition-all touch-target"
+                :class="isDark ? 'bg-teal-500/10 border border-teal-500/20 text-teal-300 hover:bg-teal-500/20 hover:border-teal-400/40' : 'bg-[#8b2500]/10 border border-[#8b2500]/20 text-[#8b2500] hover:bg-[#8b2500]/20 hover:border-[#8b2500]/40'"
               >{{ q }}</button>
             </div>
           </div>
 
-          <div class="p-4 portrait:p-3 border-t border-teal-500/20 bg-black/30 shrink-0">
+          <div class="p-4 portrait:p-3 shrink-0 transition-colors duration-300"
+            :class="isDark ? 'border-t border-teal-500/20 bg-black/30' : 'border-t border-[#8b2500]/20 bg-[#f5f0ea]/30'"
+          >
             <div class="flex items-end gap-3 portrait:gap-2">
               <div class="flex-1 relative">
                 <textarea
@@ -230,14 +251,18 @@ const handleKeydown = (e: KeyboardEvent) => {
                   @keydown="handleKeydown"
                   placeholder="输入您的问题..."
                   rows="1"
-                  class="w-full px-4 py-3 portrait:px-3 portrait:py-2.5 bg-white/5 border border-white/10 rounded-xl text-white portrait:text-sm placeholder-white/30 resize-none focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/20 transition-all"
+                  class="w-full px-4 py-3 portrait:px-3 portrait:py-2.5 border rounded-xl text-sm portrait:text-sm resize-none focus:outline-none focus:ring-1 transition-all"
+                  :class="isDark 
+                    ? 'bg-white/5 border-white/10 text-white placeholder-white/40 focus:border-teal-500/50 focus:ring-teal-500/20' 
+                    : 'bg-white/80 border-[#8b2500]/15 text-[#2d1810] placeholder-[#2d1810]/40 focus:border-[#8b2500]/50 focus:ring-[#8b2500]/20'"
                   :disabled="isLoading"
                 ></textarea>
               </div>
               <button
                 @click="sendMessage"
                 :disabled="!inputText.trim() || isLoading"
-                class="w-12 h-12 portrait:w-11 portrait:h-11 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-600 flex items-center justify-center text-white shadow-lg shadow-teal-500/30 hover:shadow-teal-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 touch-target"
+                class="w-12 h-12 portrait:w-11 portrait:h-11 rounded-xl flex items-center justify-center text-white shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 touch-target"
+                :class="isDark ? 'bg-gradient-to-r from-teal-500 to-cyan-600 shadow-teal-500/30 hover:shadow-teal-500/50' : 'bg-gradient-to-r from-[#8b2500] to-[#a63c1c] shadow-[#8b2500]/30 hover:shadow-[#8b2500]/50'"
               >
                 <svg v-if="!isLoading" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -245,7 +270,7 @@ const handleKeydown = (e: KeyboardEvent) => {
                 <div v-else class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               </button>
             </div>
-            <p class="text-[10px] text-white/30 mt-2 text-center portrait:hidden">AI 助手基于校友数据库和知识库提供智能回答</p>
+            <p class="text-xs mt-2 text-center portrait:hidden" :class="isDark ? 'text-white/50' : 'text-[#2d1810]/50'">AI 助手基于校友数据库和知识库提供智能回答</p>
           </div>
         </div>
       </div>

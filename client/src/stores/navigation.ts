@@ -26,6 +26,8 @@ export const useNavigationStore = defineStore('navigation', () => {
   const currentModule = ref<string>('');
   const previousModule = ref<string | null>(null);
   const transitionDirection = ref<TransitionDirection>('none');
+  const returnToModule = ref<string | null>(null); // 详情页返回目标
+  const returnToPath = ref<string | null>(null);   // 详情页返回路径
 
   // Getters
   const moduleIndex = computed(() => {
@@ -98,6 +100,28 @@ export const useNavigationStore = defineStore('navigation', () => {
     }
   }
 
+  // 记录来源模块，进入详情页前调用
+  function enterDetail(fromModule: string, fromPath: string) {
+    returnToModule.value = fromModule;
+    returnToPath.value = fromPath;
+  }
+
+  // 从详情页返回来源模块
+  function returnFromDetail(router?: ReturnType<typeof useRouter>) {
+    const targetPath = returnToPath.value || '/';
+    const targetModule = returnToModule.value || '';
+    returnToModule.value = null;
+    returnToPath.value = null;
+
+    if (targetModule) {
+      currentModule.value = targetModule;
+    }
+
+    if (router) {
+      router.push(targetPath);
+    }
+  }
+
   function getModuleByPath(path: string): ModuleItem | null {
     // 处理带参数的路径
     const basePath = path.split('?')[0];
@@ -120,6 +144,8 @@ export const useNavigationStore = defineStore('navigation', () => {
     currentModule,
     previousModule,
     transitionDirection,
+    returnToModule,
+    returnToPath,
     // Getters
     moduleIndex,
     currentModuleInfo,
@@ -128,6 +154,8 @@ export const useNavigationStore = defineStore('navigation', () => {
     setTransitionDirection,
     navigateTo,
     navigateToHome,
+    enterDetail,
+    returnFromDetail,
     getModuleByPath,
     initFromRoute,
     // Constants

@@ -48,7 +48,7 @@ function goBack() {
       </button>
       <div>
         <h1 class="text-3xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-cyan-500">{{ title }}</h1>
-        <p v-if="subtitle" class="text-[10px] text-teal-200/40 font-mono tracking-[0.3em] uppercase">{{ subtitle }}</p>
+        <p v-if="subtitle" class="text-xs text-teal-200/50 font-mono tracking-[0.3em] uppercase">{{ subtitle }}</p>
       </div>
     </div>
     <div class="flex items-center gap-4">

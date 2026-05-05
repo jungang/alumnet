@@ -6,6 +6,10 @@ import BottomNavigation from '@/components/BottomNavigation.vue';
 import AutoScrollPause from '@/components/AutoScrollPause.vue';
 import ThemeToggle from '@/components/ThemeToggle.vue';
 import { useAutoRefresh } from '@/composables/useAutoRefresh';
+import { useThemeStore } from '@/stores/theme';
+import { useNavigationStore } from '@/stores/navigation';
+import { useSwipe } from '@/composables/useSwipe';
+import Galaxy3D from '@/components/Galaxy3D.vue';
 
 // --- 类型定义 ---
 interface Alumni {
@@ -30,6 +34,9 @@ interface AlumniNews {
 
 // --- 状态 ---
 const router = useRouter();
+const themeStore = useThemeStore();
+const navigationStore = useNavigationStore();
+const isDark = computed(() => themeStore.isDark);
 const loading = ref(true);
 const alumniList = ref<Alumni[]>([]);
 const newsList = ref<AlumniNews[]>([]);
@@ -37,6 +44,14 @@ const activeCategory = ref('全部');
 const currentPage = ref(0);
 const idleTimer = ref<number | null>(null);
 const newsIndex = ref(0);
+const viewMode = ref<'cards' | '3d'>('cards');
+
+// 滑动翻页手势
+const { swipeHandlers } = useSwipe({
+  threshold: 60,
+  onSwipeLeft: () => nextPage(),
+  onSwipeRight: () => prevPage(),
+});
 
 // 使用自动刷新composable
 const { isPaused: isAutoPlayPaused, reset: resetAutoPlay, onTouchStart, onTouchEnd, onScroll } = useAutoRefresh({
@@ -181,6 +196,7 @@ function handleManualPageChange(page: number) {
 }
 
 function viewDetail(alumni: Alumni) {
+  navigationStore.enterDetail('galaxy', '/galaxy');
   router.push(`/alumni/${alumni.alumni_id}`);
 }
 
@@ -285,21 +301,35 @@ function getNewsIcon(type: string) {
 
 
 <template>
-  <div class="relative w-full h-screen overflow-hidden bg-[#020608] text-white font-sans selection:bg-teal-500/30 pb-20">
+  <div class="relative w-full h-screen overflow-hidden font-sans pb-20 transition-colors duration-300"
+    :class="isDark ? 'bg-[#020608] text-white selection:bg-teal-500/30' : 'bg-[#faf8f5] text-[#2d1810] selection:bg-[#8b2500]/20'"
+  >
     <!-- 背景装饰 -->
     <div class="absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none"></div>
-    <div class="absolute inset-0 z-0 bg-gradient-to-b from-teal-900/5 via-transparent to-black/80 pointer-events-none"></div>
+    <div class="absolute inset-0 z-0 pointer-events-none transition-colors duration-300"
+      :class="isDark ? 'bg-gradient-to-b from-teal-900/5 via-transparent to-black/80' : 'bg-gradient-to-b from-[#8b2500]/5 via-transparent to-[#f5f0ea]/80'"
+    ></div>
     
     <!-- 装饰光效 -->
-    <div class="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-[120px] pointer-events-none transition-colors duration-300"
+      :class="isDark ? 'bg-teal-500/10' : 'bg-[#8b2500]/10'"
+    ></div>
+    <div class="absolute bottom-0 right-1/4 w-80 h-80 rounded-full blur-[100px] pointer-events-none transition-colors duration-300"
+      :class="isDark ? 'bg-cyan-500/10' : 'bg-[#a63c1c]/10'"
+    ></div>
 
     <div class="relative z-10 w-full h-full p-6 lg:p-10 flex flex-col">
       <!-- 顶部导航 -->
-      <header class="flex items-center justify-between portrait:flex-col portrait:items-start portrait:gap-3 pb-4 border-b border-teal-500/20 shrink-0">
+      <header class="flex items-center justify-between portrait:flex-col portrait:items-start portrait:gap-3 pb-4 shrink-0 transition-colors duration-300"
+        :class="isDark ? 'border-b border-teal-500/20' : 'border-b border-[#8b2500]/20'"
+      >
         <div class="flex items-center gap-6 portrait:gap-3">
-          <button @click="goBack" class="group flex items-center gap-3 portrait:gap-2 text-white/60 hover:text-teal-400 transition-colors touch-target">
-            <div class="w-10 h-10 portrait:w-9 portrait:h-9 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-teal-500/10 group-hover:border-teal-400/50 transition-all">
+          <button @click="goBack" class="group flex items-center gap-3 portrait:gap-2 transition-colors touch-target"
+            :class="isDark ? 'text-white/60 hover:text-teal-400' : 'text-[#2d1810]/60 hover:text-[#8b2500]'"
+          >
+            <div class="w-10 h-10 portrait:w-9 portrait:h-9 rounded-full border flex items-center justify-center group-hover:bg-teal-500/10 transition-all"
+              :class="isDark ? 'border-white/20 group-hover:border-teal-400/50' : 'border-[#8b2500]/20 group-hover:border-[#8b2500]/50'"
+            >
               <svg class="w-5 h-5 portrait:w-4 portrait:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
@@ -307,30 +337,57 @@ function getNewsIcon(type: string) {
             <span class="text-sm portrait:text-xs font-mono tracking-widest uppercase">返回首页</span>
           </button>
           <div>
-            <h1 class="text-3xl portrait:text-2xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-cyan-100 to-white">杰出校友风采</h1>
-            <p class="text-[10px] portrait:text-[8px] text-teal-200/40 font-mono tracking-[0.3em] uppercase portrait:hidden">Distinguished Alumni Hall of Fame</p>
+            <h1 class="text-3xl portrait:text-2xl font-bold tracking-wide text-transparent bg-clip-text transition-colors duration-300"
+              :class="isDark ? 'bg-gradient-to-r from-teal-300 via-cyan-100 to-white' : 'bg-gradient-to-r from-[#8b2500] to-[#a63c1c]'"
+            >杰出校友风采</h1>
+            <p class="text-xs transition-colors duration-300 portrait:hidden"
+              :class="isDark ? 'text-teal-200/40' : 'text-[#8b2500]/40'"
+              style="font-family: monospace; letter-spacing: 0.3em; text-transform: uppercase;"
+            >Distinguished Alumni Hall of Fame</p>
           </div>
         </div>
         <div class="flex items-center gap-4 portrait:w-full portrait:justify-between">
-          <div class="hidden md:flex portrait:!flex items-center gap-2 text-xs font-mono text-teal-200/30">
-            <span class="w-2 h-2 bg-teal-500 rounded-full animate-pulse shadow-[0_0_10px_#14b8a6]"></span>
+          <div class="hidden md:flex portrait:!flex items-center gap-2 text-xs transition-colors duration-300"
+            :class="isDark ? 'text-teal-200/50' : 'text-[#8b2500]/50'"
+            style="font-family: monospace;"
+          >
+            <span class="w-2 h-2 rounded-full animate-pulse" :class="isDark ? 'bg-teal-500 shadow-[0_0_10px_#14b8a6]' : 'bg-[#8b2500] shadow-[0_0_10px_#8b2500]'"></span>
             共 {{ alumniList.length }} 位杰出校友
           </div>
           <ThemeToggle />
+          <!-- 3D/卡片 视图切换 -->
+          <button
+            @click="viewMode = viewMode === 'cards' ? '3d' : 'cards'"
+            class="touch-target w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 text-sm"
+            :class="isDark
+              ? 'border-white/20 text-white/60 hover:text-teal-400 hover:border-teal-400/50 hover:bg-teal-500/10'
+              : 'border-teal-500/30 text-teal-600 hover:text-teal-500 hover:border-teal-400'"
+            :title="viewMode === 'cards' ? '切换3D星图' : '切换卡片视图'"
+          >
+            {{ viewMode === 'cards' ? '✦' : '☰' }}
+          </button>
         </div>
       </header>
 
       <!-- 分类Tab - 竖屏时允许换行 -->
-      <div class="flex items-center gap-3 portrait:gap-2 py-6 portrait:py-4 overflow-x-auto portrait:overflow-visible portrait:flex-wrap shrink-0">
+      <div class="flex items-center gap-3 portrait:gap-2 py-6 portrait:py-4 overflow-x-auto portrait:overflow-visible portrait:flex-wrap shrink-0"
+        role="tablist" aria-label="校友分类">
         <button
           v-for="cat in CATEGORIES"
           :key="cat.name"
           @click="selectCategory(cat.name)"
+          role="tab"
+          :aria-selected="activeCategory === cat.name"
+          :aria-label="cat.name"
           :class="[
             'px-5 py-2.5 portrait:px-3 portrait:py-2 rounded-full font-medium portrait:text-sm transition-all duration-300 flex items-center gap-2 portrait:gap-1.5 whitespace-nowrap touch-target',
             activeCategory === cat.name
-              ? 'bg-teal-500/20 border border-teal-400/50 text-teal-300 shadow-lg shadow-teal-500/10'
-              : 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10 hover:border-teal-400/30 hover:text-white'
+              ? isDark 
+                ? 'bg-teal-500/20 border border-teal-400/50 text-teal-300 shadow-lg shadow-teal-500/10'
+                : 'bg-[#8b2500]/15 border border-[#8b2500]/50 text-[#8b2500] shadow-lg shadow-[#8b2500]/10'
+              : isDark
+                ? 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10 hover:border-teal-400/30 hover:text-white'
+                : 'bg-white/60 border border-[#8b2500]/10 text-[#2d1810]/60 hover:bg-white/80 hover:border-[#8b2500]/30 hover:text-[#2d1810]'
           ]"
         >
           <span>{{ cat.icon }}</span>
@@ -343,8 +400,10 @@ function getNewsIcon(type: string) {
 
       <!-- 校友卡片区域 -->
       <div 
+        v-if="viewMode === 'cards'"
         class="flex-1 min-h-0 relative"
-        @touchstart="onTouchStart"
+        v-on="{ ...swipeHandlers }"
+        @touchstart.passive="onTouchStart"
         @touchend="onTouchEnd"
         @scroll="onScroll"
       >
@@ -352,7 +411,8 @@ function getNewsIcon(type: string) {
         <button
           v-if="totalPages > 1"
           @click="prevPage"
-          class="absolute -left-2 portrait:-left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 portrait:w-8 portrait:h-8 rounded-full bg-black/80 border border-teal-500/50 flex items-center justify-center text-teal-400 hover:bg-teal-500/30 hover:border-teal-400 transition-all touch-target shadow-lg"
+          class="absolute -left-2 portrait:-left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 portrait:w-8 portrait:h-8 rounded-full border flex items-center justify-center transition-all touch-target shadow-lg"
+          :class="isDark ? 'bg-black/80 border-teal-500/50 text-teal-400 hover:bg-teal-500/30 hover:border-teal-400' : 'bg-white/90 border-[#8b2500]/30 text-[#8b2500] hover:bg-[#8b2500]/10 hover:border-[#8b2500]'"
         >
           <svg class="w-6 h-6 portrait:w-5 portrait:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -361,7 +421,8 @@ function getNewsIcon(type: string) {
         <button
           v-if="totalPages > 1"
           @click="nextPage"
-          class="absolute -right-2 portrait:-right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 portrait:w-8 portrait:h-8 rounded-full bg-black/80 border border-teal-500/50 flex items-center justify-center text-teal-400 hover:bg-teal-500/30 hover:border-teal-400 transition-all touch-target shadow-lg"
+          class="absolute -right-2 portrait:-right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 portrait:w-8 portrait:h-8 rounded-full border flex items-center justify-center transition-all touch-target shadow-lg"
+          :class="isDark ? 'bg-black/80 border-teal-500/50 text-teal-400 hover:bg-teal-500/30 hover:border-teal-400' : 'bg-white/90 border-[#8b2500]/30 text-[#8b2500] hover:bg-[#8b2500]/10 hover:border-[#8b2500]'"
         >
           <svg class="w-6 h-6 portrait:w-5 portrait:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -380,7 +441,11 @@ function getNewsIcon(type: string) {
                 :style="{ animationDelay: `${index * 80}ms` }"
               >
                 <!-- 卡片内容 - 高度由内容自然决定 -->
-                <div class="relative h-auto rounded-2xl overflow-hidden transition-all duration-500 flex flex-col group" style="background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.02) 100%); border: 1px solid rgba(255,255,255,0.1);">
+                <div class="relative h-auto rounded-2xl overflow-hidden transition-all duration-500 flex flex-col group"
+                  :style="isDark 
+                    ? 'background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.02) 100%); border: 1px solid rgba(255,255,255,0.1);' 
+                    : 'background: linear-gradient(145deg, rgba(255,252,248,0.9) 0%, rgba(255,252,248,0.7) 50%, rgba(255,252,248,0.5) 100%); border: 1px solid rgba(139,37,0,0.15);'"
+                >
                   <!-- 光泽边框效果 -->
                   <div class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style="background: linear-gradient(135deg, rgba(20,184,166,0.3) 0%, transparent 40%, transparent 60%, rgba(20,184,166,0.2) 100%); padding: 1px;">
                     <div class="w-full h-full rounded-2xl" style="background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);"></div>
@@ -391,7 +456,7 @@ function getNewsIcon(type: string) {
                   <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-teal-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   
                   <!-- 照片区域 - 竖版比例 3:4，约占卡片高度78% -->
-                  <div class="relative aspect-[3/4] bg-gradient-to-b from-gray-800 to-gray-900 overflow-hidden">
+                  <div class="relative aspect-[3/4] overflow-hidden" :class="isDark ? 'bg-gradient-to-b from-gray-800 to-gray-900' : 'bg-gradient-to-b from-[#f5f0ea] to-[#e8e0d4]'">
                     <img
                       v-if="alumni.photoUrl"
                       :src="alumni.photoUrl"
@@ -399,8 +464,8 @@ function getNewsIcon(type: string) {
                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       @error="(e) => (e.target as HTMLImageElement).style.display = 'none'"
                     />
-                    <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-teal-900/50 to-cyan-900/50">
-                      <span class="text-4xl font-bold text-teal-500/30 text-center px-2 break-all">{{ alumni.name }}</span>
+                    <div v-else class="w-full h-full flex items-center justify-center" :class="isDark ? 'bg-gradient-to-br from-teal-900/50 to-cyan-900/50' : 'bg-gradient-to-br from-[#8b2500]/20 to-[#a63c1c]/20'">
+                      <span class="text-4xl font-bold text-center px-2 break-all" :class="isDark ? 'text-teal-500/30' : 'text-[#8b2500]/30'">{{ alumni.name }}</span>
                     </div>
                     
                     <!-- 类别标签 -->
@@ -419,18 +484,20 @@ function getNewsIcon(type: string) {
 
                     <!-- 届别标签 -->
                     <div class="absolute top-3 right-3">
-                      <span class="px-2 py-1 rounded bg-black/60 text-white/80 text-xs font-mono backdrop-blur-md">
+                      <span class="px-2 py-1 rounded text-xs font-mono backdrop-blur-md" :class="isDark ? 'bg-black/60 text-white/80' : 'bg-white/80 text-[#2d1810]/80'">
                         {{ alumni.graduation_year }}届
                       </span>
                     </div>
                   </div>
 
                   <!-- 信息区域 - 约占卡片高度22% -->
-                  <div class="h-[22%] min-h-[50px] p-2 flex flex-col justify-center bg-gradient-to-t from-black/40 to-transparent">
-                    <h3 class="text-base font-bold text-white mb-1 group-hover:text-teal-300 transition-colors truncate">
+                  <div class="h-[22%] min-h-[50px] p-2 flex flex-col justify-center transition-colors duration-300"
+                    :class="isDark ? 'bg-gradient-to-t from-black/40 to-transparent' : 'bg-gradient-to-t from-[#f5f0ea]/40 to-transparent'"
+                  >
+                    <h3 class="text-base font-bold mb-1 transition-colors truncate" :class="isDark ? 'text-white group-hover:text-teal-300' : 'text-[#2d1810] group-hover:text-[#8b2500]'">
                       {{ alumni.name }}
                     </h3>
-                    <p class="text-xs text-gray-400 line-clamp-2 leading-snug">
+                    <p class="text-xs line-clamp-2 leading-snug" :class="isDark ? 'text-gray-400' : 'text-[#2d1810]/60'">
                       {{ alumni.achievement || '杰出校友' }}
                     </p>
                   </div>
@@ -459,30 +526,48 @@ function getNewsIcon(type: string) {
         </div>
       </div>
 
+      <!-- 3D 星图视图 -->
+      <div
+        v-if="viewMode === '3d'"
+        class="flex-1 min-h-0 relative rounded-xl overflow-hidden"
+        :class="isDark ? 'bg-[#020608]' : 'bg-slate-50'"
+      >
+        <Galaxy3D
+          :alumni="alumniList"
+          @select-alumni="(a: any) => router.push(`/alumni/${a.id}`)"
+        />
+        <div class="absolute bottom-4 left-4 text-xs px-3 py-1.5 rounded-full" :class="isDark ? 'bg-white/10 text-white/50' : 'bg-black/5 text-black/40'">
+          🖐 拖拽旋转 · 双指缩放 · 点击查看
+        </div>
+      </div>
+
 
       <!-- 校友动态走马灯 - 竖屏时简化布局 -->
       <div 
-        class="shrink-0 mt-6 portrait:mt-4 pt-6 portrait:pt-4 border-t border-teal-500/20"
+        class="shrink-0 mt-6 portrait:mt-4 pt-6 portrait:pt-4 transition-colors duration-300"
+        :class="isDark ? 'border-t border-teal-500/20' : 'border-t border-[#8b2500]/20'"
         @touchstart="onNewsTouchStart"
         @touchend="onNewsTouchEnd"
       >
         <div class="flex items-center gap-4 portrait:gap-2 portrait:flex-col portrait:items-stretch">
           <div class="flex items-center gap-2 shrink-0 portrait:justify-between portrait:w-full">
             <div class="flex items-center gap-2">
-              <span class="text-teal-400 text-lg portrait:text-base">📰</span>
-              <span class="text-sm portrait:text-xs font-bold text-teal-300 font-mono tracking-wider">校友动态</span>
+              <span class="text-lg portrait:text-base" :class="isDark ? 'text-teal-400' : 'text-[#8b2500]'">📰</span>
+              <span class="text-sm portrait:text-xs font-bold tracking-wider" :class="isDark ? 'text-teal-300' : 'text-[#8b2500]'" style="font-family: monospace;">校友动态</span>
             </div>
             <!-- 动态导航 - 竖屏时移到标题旁边 -->
             <div class="hidden portrait:flex items-center gap-2">
               <button
                 @click="newsIndex = (newsIndex - 1 + newsList.length) % newsList.length"
-                class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-teal-400 hover:border-teal-400/50 transition-all touch-target"
+                class="w-8 h-8 rounded-full border flex items-center justify-center transition-all touch-target"
+                :class="isDark ? 'border-white/10 text-white/40 hover:text-teal-400 hover:border-teal-400/50' : 'border-[#8b2500]/10 text-[#2d1810]/40 hover:text-[#8b2500] hover:border-[#8b2500]/50'"
               >
                 ‹
               </button>
               <button
                 @click="newsIndex = (newsIndex + 1) % newsList.length"
-                class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-teal-400 hover:border-teal-400/50 transition-all touch-target"
+                class="w-8 h-8 rounded-full border flex items-center justify-center transition-all touch-target"
+                :class="isDark ? 'border-white/10 text-white/40 hover:text-teal-400 hover:border-teal-400/50' : 'border-[#8b2500]/10 text-[#2d1810]/40 hover:text-[#8b2500] hover:border-[#8b2500]/50'"
               >
                 ›
               </button>
@@ -491,15 +576,17 @@ function getNewsIcon(type: string) {
           
           <div class="flex-1 overflow-hidden portrait:w-full">
             <transition name="news-slide" mode="out-in">
-              <div v-if="currentNews" :key="currentNews.id" class="flex items-center gap-4 portrait:gap-3 glass-card px-6 portrait:px-4 py-3 portrait:py-2.5 rounded-xl">
+              <div v-if="currentNews" :key="currentNews.id" class="flex items-center gap-4 portrait:gap-3 px-6 portrait:px-4 py-3 portrait:py-2.5 rounded-xl transition-colors duration-300"
+                :class="isDark ? 'glass-card' : 'bg-white/80 border border-[#8b2500]/10 backdrop-blur-sm'"
+              >
                 <span class="text-2xl portrait:text-xl">{{ getNewsIcon(currentNews.type) }}</span>
                 <div class="flex-1 min-w-0">
-                  <p class="text-white portrait:text-sm font-medium truncate">{{ currentNews.title }}</p>
-                  <p class="text-xs text-teal-400/60 mt-1">
+                  <p class="font-medium truncate" :class="isDark ? 'text-white' : 'text-[#2d1810]'">{{ currentNews.title }}</p>
+                  <p class="text-xs mt-1" :class="isDark ? 'text-teal-400/60' : 'text-[#8b2500]/60'">
                     {{ currentNews.alumni_name }} · {{ currentNews.date }}
                   </p>
                 </div>
-                <div class="shrink-0 text-teal-500/50 text-xs font-mono">
+                <div class="shrink-0 text-xs" :class="isDark ? 'text-teal-500/50' : 'text-[#8b2500]/50'" style="font-family: monospace;">
                   {{ newsIndex + 1 }}/{{ newsList.length }}
                 </div>
               </div>
@@ -510,13 +597,15 @@ function getNewsIcon(type: string) {
           <div class="flex items-center gap-2 shrink-0 portrait:hidden">
             <button
               @click="newsIndex = (newsIndex - 1 + newsList.length) % newsList.length"
-              class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-teal-400 hover:border-teal-400/50 transition-all"
+              class="w-8 h-8 rounded-full border flex items-center justify-center transition-all touch-target"
+              :class="isDark ? 'border-white/10 text-white/40 hover:text-teal-400 hover:border-teal-400/50' : 'border-[#8b2500]/10 text-[#2d1810]/40 hover:text-[#8b2500] hover:border-[#8b2500]/50'"
             >
               ‹
             </button>
             <button
               @click="newsIndex = (newsIndex + 1) % newsList.length"
-              class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-teal-400 hover:border-teal-400/50 transition-all"
+              class="w-8 h-8 rounded-full border flex items-center justify-center transition-all touch-target"
+              :class="isDark ? 'border-white/10 text-white/40 hover:text-teal-400 hover:border-teal-400/50' : 'border-[#8b2500]/10 text-[#2d1810]/40 hover:text-[#8b2500] hover:border-[#8b2500]/50'"
             >
               ›
             </button>
@@ -526,10 +615,14 @@ function getNewsIcon(type: string) {
     </div>
 
     <!-- 加载状态 -->
-    <div v-if="loading" class="absolute inset-0 bg-[#020608] flex items-center justify-center z-50">
+    <div v-if="loading" class="absolute inset-0 flex items-center justify-center z-50 transition-colors duration-300"
+      :class="isDark ? 'bg-[#020608]' : 'bg-[#faf8f5]'"
+    >
       <div class="text-center">
-        <div class="w-12 h-12 border-2 border-teal-500/20 border-t-teal-400 rounded-full animate-spin mx-auto mb-4 shadow-[0_0_15px_rgba(45,212,191,0.2)]"></div>
-        <div class="text-teal-400/60 animate-pulse font-mono tracking-[0.3em] text-xs">加载杰出校友...</div>
+        <div class="w-12 h-12 border-2 rounded-full animate-spin mx-auto mb-4"
+          :class="isDark ? 'border-teal-500/20 border-t-teal-400 shadow-[0_0_15px_rgba(45,212,191,0.2)]' : 'border-[#8b2500]/20 border-t-[#8b2500] shadow-[0_0_15px_rgba(139,37,0,0.2)]'"
+        ></div>
+        <div class="animate-pulse text-xs tracking-[0.3em]" :class="isDark ? 'text-teal-400/60' : 'text-[#8b2500]/60'" style="font-family: monospace;">加载杰出校友...</div>
       </div>
     </div>
 
@@ -537,7 +630,7 @@ function getNewsIcon(type: string) {
     <div v-if="!loading && filteredAlumni.length === 0" class="absolute inset-0 flex items-center justify-center pointer-events-none">
       <div class="text-center">
         <div class="text-6xl mb-4 opacity-30">🎓</div>
-        <p class="text-white/30">暂无该类别的杰出校友</p>
+        <p :class="isDark ? 'text-white/50' : 'text-[#2d1810]/50'">暂无该类别的杰出校友</p>
       </div>
     </div>
     
