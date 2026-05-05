@@ -65,7 +65,7 @@ jobs:
         run: cd server && npx vitest run --coverage
 
       - name: Upload coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: coverage-reports
@@ -100,13 +100,13 @@ jobs:
         run: pnpm build:client
 
       - name: Upload server build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: server-dist
           path: server/dist/
 
       - name: Upload client build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: client-dist
           path: client/dist/
