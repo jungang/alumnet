@@ -7,11 +7,12 @@ import logger from './config/logger';
 // 路由
 import authRoutes from './routes/auth';
 import alumniRoutes from './routes/alumni';
-import adminRoutes from './routes/admin';  // 拆分后的 admin/index.ts
+import adminRoutes from './routes/admin'; // 拆分后的 admin/index.ts
 import contentRoutes from './routes/content';
 import uploadRoutes from './routes/upload';
 import backupRoutes from './routes/backup';
 import selfServiceRoutes from './routes/selfService';
+import qaRoutes from './routes/qa';
 import { setupSwagger } from './routes/api-docs';
 import { apiLimiter, adminLimiter, ragLimiter, authLimiter } from './middleware/rateLimit';
 import path from 'path';
@@ -28,29 +29,33 @@ const app: express.Application = express();
 const PORT = process.env.PORT || 3000;
 
 // 安全中间件
-app.use(helmet({
-  contentSecurityPolicy: false,  // 暂时禁用 CSP，Swagger UI 兼容性问题后续配置
-  crossOriginEmbedderPolicy: false,
-}) as any);
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // 暂时禁用 CSP，Swagger UI 兼容性问题后续配置
+    crossOriginEmbedderPolicy: false,
+  }) as any
+);
 
 // CORS 限制：仅允许配置的前端域名访问
 const allowedOrigins = process.env.CORS_ORIGINS
-  ? process.env.CORS_ORIGINS.split(',').map(o => o.trim())
+  ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim())
   : ['http://localhost:5173', 'http://localhost:5174']; // 开发环境默认值
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // 允许无 origin 的请求（服务端请求、Postman 等）
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS not allowed'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // 允许无 origin 的请求（服务端请求、Postman 等）
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('CORS not allowed'));
+      }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 
 // 中间件
 app.use(express.json({ limit: '10mb' }));
@@ -117,43 +122,47 @@ const uploadDir = process.env.UPLOAD_DIR || 'uploads';
 const uploadPath = path.resolve(process.cwd(), uploadDir);
 
 // 允许访问 uploads 的 origin 白名单（复用 CORS_ORIGINS 配置）
-const uploadAllowedReferers = [
-  ...allowedOrigins,
-  `http://localhost:${PORT}`,
-];
+const uploadAllowedReferers = [...allowedOrigins, `http://localhost:${PORT}`];
 
-app.use('/uploads', (req, res, next) => {
-  const referer = req.headers.referer || req.headers.referrer || '';
-  const origin = req.headers.origin || '';
+app.use(
+  '/uploads',
+  (req, res, next) => {
+    const referer = req.headers.referer || req.headers.referrer || '';
+    const origin = req.headers.origin || '';
 
-  // 场景1：浏览器直接访问（无 referer/origin）— 允许（兼容性）
-  // 场景2：有 referer/origin — 必须来自白名单域名
-  const hasRefererOrOrigin = referer || origin;
-  if (!hasRefererOrOrigin) {
-    // 无来源信息：可能是直接访问或程序请求，允许通过
-    return next();
-  }
-
-  // 检查 referer 或 origin 是否匹配白名单
-  const source = (typeof referer === 'string' ? referer : referer?.[0]) || (typeof origin === 'string' ? origin : origin?.[0]) || '';
-  const isAllowed = uploadAllowedReferers.some(allowed => {
-    try {
-      const sourceUrl = new URL(source);
-      const allowedUrl = new URL(allowed);
-      return sourceUrl.origin === allowedUrl.origin;
-    } catch {
-      return source.startsWith(allowed);
+    // 场景1：浏览器直接访问（无 referer/origin）— 允许（兼容性）
+    // 场景2：有 referer/origin — 必须来自白名单域名
+    const hasRefererOrOrigin = referer || origin;
+    if (!hasRefererOrOrigin) {
+      // 无来源信息：可能是直接访问或程序请求，允许通过
+      return next();
     }
-  });
 
-  if (isAllowed) {
-    return next();
-  }
+    // 检查 referer 或 origin 是否匹配白名单
+    const source =
+      (typeof referer === 'string' ? referer : referer?.[0]) ||
+      (typeof origin === 'string' ? origin : origin?.[0]) ||
+      '';
+    const isAllowed = uploadAllowedReferers.some((allowed) => {
+      try {
+        const sourceUrl = new URL(source);
+        const allowedUrl = new URL(allowed);
+        return sourceUrl.origin === allowedUrl.origin;
+      } catch {
+        return source.startsWith(allowed);
+      }
+    });
 
-  // 来源不在白名单 — 拒绝访问
-  logger.warn({ source }, 'Upload access denied');
-  res.status(403).json({ success: false, code: 'FORBIDDEN', message: '无权访问此资源' });
-}, express.static(uploadPath));
+    if (isAllowed) {
+      return next();
+    }
+
+    // 来源不在白名单 — 拒绝访问
+    logger.warn({ source }, 'Upload access denied');
+    res.status(403).json({ success: false, code: 'FORBIDDEN', message: '无权访问此资源' });
+  },
+  express.static(uploadPath)
+);
 
 // API路由
 // API 限频 — 全局限频 + 特定路由加强
@@ -164,6 +173,7 @@ app.use('/api/admin', adminLimiter, adminRoutes);
 app.use('/api/content', contentRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/backup', backupRoutes);
+app.use('/api/qa', qaRoutes);
 app.use('/api/self-service', selfServiceRoutes);
 
 // Swagger API文档
@@ -179,7 +189,9 @@ app.use(globalErrorHandler);
 
 // 关闭状态标志
 let isShuttingDown = false;
-export function isServerShuttingDown() { return isShuttingDown; }
+export function isServerShuttingDown() {
+  return isShuttingDown;
+}
 
 // 启动服务器（测试环境跳过，由 supertest 管理端口）
 async function start() {
