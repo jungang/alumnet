@@ -1,6 +1,6 @@
 /**
  * Admin 路由汇总 — 替代原 admin.ts 巨型文件
- * 
+ *
  * 所有子路由共享 authMiddleware + requireAdmin 中间件
  * 每个子路由文件 ≤200 行
  */
@@ -27,6 +27,7 @@ import videoGreetingsRoutes from './videoGreetings';
 import interactionRoutes from './interaction';
 import ragRoutes from './rag';
 import activitiesRoutes from './activities';
+import summariesRoutes from './summaries';
 
 const router: Router = Router();
 
@@ -52,5 +53,6 @@ router.use(videoGreetingsRoutes);
 router.use(interactionRoutes);
 router.use(ragRoutes);
 router.use(activitiesRoutes);
+router.use(summariesRoutes);
 
 export default router;

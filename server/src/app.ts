@@ -13,6 +13,7 @@ import uploadRoutes from './routes/upload';
 import backupRoutes from './routes/backup';
 import selfServiceRoutes from './routes/selfService';
 import qaRoutes from './routes/qa';
+import speechRoutes from './routes/speech';
 import { setupSwagger } from './routes/api-docs';
 import { apiLimiter, adminLimiter, ragLimiter, authLimiter } from './middleware/rateLimit';
 import path from 'path';
@@ -174,6 +175,7 @@ app.use('/api/content', contentRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/backup', backupRoutes);
 app.use('/api/qa', qaRoutes);
+app.use('/api/speech', speechRoutes);
 app.use('/api/self-service', selfServiceRoutes);
 
 // Swagger API文档
