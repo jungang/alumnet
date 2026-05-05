@@ -1,6 +1,12 @@
 /**
  * 迁移 005: 推荐系统性能索引
  * 针对校友推荐功能添加的专用索引
+ *
+ * 性能优化说明：
+ * 1. 同班推荐索引：class_name + id，用于快速查找同班同学
+ * 2. 同行业推荐索引：industry + graduation_year + id，支持按年份过滤的行业推荐
+ * 3. 同城市推荐索引：current_city + id，用于地理位置推荐
+ * 4. 全文搜索GIN索引：增强姓名、学号、班级的搜索能力
  * @eslint
  * global exports, pgm
  */

@@ -16,6 +16,7 @@ export class AlumniRecommendationService {
     const classmates = await alumniRepository.getClassmates(alumniId);
 
     // 排除已推荐过的校友（简化实现，实际可扩展为参数传入已推荐列表）
+    // 分页支持
     return classmates.slice(0, limit);
   }
 

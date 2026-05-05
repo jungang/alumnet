@@ -28,6 +28,7 @@ import interactionRoutes from './interaction';
 import ragRoutes from './rag';
 import activitiesRoutes from './activities';
 import summariesRoutes from './summaries';
+import recommendationsRoutes from './recommendations';
 
 const router: Router = Router();
 
@@ -54,5 +55,6 @@ router.use(interactionRoutes);
 router.use(ragRoutes);
 router.use(activitiesRoutes);
 router.use(summariesRoutes);
+router.use(recommendationsRoutes);
 
 export default router;
