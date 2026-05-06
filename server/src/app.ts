@@ -9,12 +9,17 @@ import authRoutes from './routes/auth';
 import alumniRoutes from './routes/alumni';
 import adminRoutes from './routes/admin'; // 拆分后的 admin/index.ts
 import aiSummaryRoutes from './routes/aiSummary';
+import topicGenerationRoutes from './routes/topicGeneration';
+import qaTemplateRoutes from './routes/qaTemplate';
 import contentRoutes from './routes/content';
 import uploadRoutes from './routes/upload';
 import backupRoutes from './routes/backup';
 import selfServiceRoutes from './routes/selfService';
 import qaRoutes from './routes/qa';
 import speechRoutes from './routes/speech';
+import jobMatcherRoutes from './routes/jobMatcher';
+import sentimentRoutes from './routes/sentiment';
+import conversationRoutes from './routes/conversation';
 import { setupSwagger } from './routes/api-docs';
 import { apiLimiter, adminLimiter, ragLimiter, authLimiter } from './middleware/rateLimit';
 import path from 'path';
@@ -177,8 +182,13 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/backup', backupRoutes);
 app.use('/api/qa', qaRoutes);
 app.use('/api/ai-summary', aiSummaryRoutes);
+app.use('/api/topics', topicGenerationRoutes);
+app.use('/api/qa', qaTemplateRoutes);
 app.use('/api/speech', speechRoutes);
+app.use('/api/sentiment', sentimentRoutes);
 app.use('/api/self-service', selfServiceRoutes);
+app.use('/api/job-matcher', jobMatcherRoutes);
+app.use('/api/conversation', ragLimiter, conversationRoutes);
 
 // Swagger API文档
 setupSwagger(app);

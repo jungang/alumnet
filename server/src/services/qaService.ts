@@ -13,6 +13,7 @@
 
 import { pool } from '../config/database';
 import { ragService } from './ragService';
+import { llmService } from './llmService';
 import logger from '../config/logger';
 
 interface QueryAnalysisResult {
@@ -225,10 +226,11 @@ class QAService {
   }
 
   private async callLLM(systemPrompt: string, userPrompt: string): Promise<string> {
-    // 调用外部 AI 服务（待集成）
-    // 这里使用 mock 实现
-    const preview = userPrompt.substring(0, Math.min(30, userPrompt.length));
-    return `根据你的查询"${preview}..."，我为你找到了以下信息：\n\n【相关校友】\n- 已检索到相关校友信息，请在平台中查看详细档案\n\n【提示】\n- 你可以通过姓名、毕业年份、行业等条件筛选校友\n- 详请访问：/alumni/search`;
+    const result = await llmService.callLLM(userPrompt, {
+      systemPrompt,
+      metadata: { service: 'qaService' },
+    });
+    return result.content;
   }
 
   private postProcessResponse(response: string): string {

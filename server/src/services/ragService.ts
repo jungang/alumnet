@@ -1,6 +1,8 @@
 import { QdrantClient } from '@qdrant/js-client-rest';
 import { pool } from '../config/database';
 import { Alumni } from '../types/models';
+import { llmService, estimateTokens } from './llmService';
+import { llmConfig } from '../config/llm';
 import logger from '../config/logger';
 
 interface RAGResponse {
@@ -79,12 +81,9 @@ class CircuitBreaker {
   }
 }
 
-// AI配置
-const AI_PROVIDER = process.env.AI_PROVIDER || 'glm';
+// AI配置 — Chat 部分已迁移至 config/llm.ts，由 llmService 统一管理
+// Embedding 仍使用以下环境变量 (Embedding 不走 llmService 通用路径)
 const GLM_API_KEY = process.env.GLM_API_KEY;
-const GLM_BASE_URL = process.env.GLM_BASE_URL || 'https://open.bigmodel.cn/api/coding/paas/v4';
-const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
-const DEEPSEEK_BASE_URL = process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com';
 
 // Embedding配置
 const EMBEDDING_PROVIDER = process.env.EMBEDDING_PROVIDER || 'glm';
@@ -687,106 +686,14 @@ ${schoolName}创建于${schoolSince}年，是一所具有百年历史的名校�
     return Date.now() - cached.timestamp > CACHE_TTL;
   }
 
-  // 调用 GLM-4 Chat API（含超时控制）
-  private async glmChat(prompt: string): Promise<string> {
-    if (!GLM_API_KEY) {
-      throw new Error('GLM API Key未配置');
-    }
-
-    const systemPrompt = await this.getSystemPrompt();
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), RAG_QUERY_TIMEOUT_MS);
-
-    try {
-      const response = await fetch(`${GLM_BASE_URL}/chat/completions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${GLM_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'glm-4',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: prompt },
-          ],
-          temperature: 0.7,
-          max_tokens: 600,
-        }),
-        signal: controller.signal,
-      });
-
-      if (!response.ok) {
-        throw new Error(`GLM API错误: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return data.choices[0].message.content;
-    } finally {
-      clearTimeout(timeout);
-    }
-  }
-
-  // 调用 DeepSeek Chat API（含超时控制）
-  private async deepseekChat(prompt: string): Promise<string> {
-    if (!DEEPSEEK_API_KEY) {
-      throw new Error('DeepSeek API Key未配置');
-    }
-
-    const systemPrompt = await this.getSystemPrompt();
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), RAG_QUERY_TIMEOUT_MS);
-
-    try {
-      const response = await fetch(`${DEEPSEEK_BASE_URL}/v1/chat/completions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${DEEPSEEK_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'deepseek-chat',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: prompt },
-          ],
-          temperature: 0.7,
-          max_tokens: 600,
-        }),
-        signal: controller.signal,
-      });
-
-      if (!response.ok) {
-        throw new Error(`DeepSeek API错误: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return data.choices[0].message.content;
-    } finally {
-      clearTimeout(timeout);
-    }
-  }
-
-  // 统一Chat接口，支持主备切换
+  // 统一Chat接口 — 委托给 llmService (含重试、故障转移、缓存)
   async chat(prompt: string): Promise<string> {
-    if (AI_PROVIDER === 'glm' && GLM_API_KEY) {
-      try {
-        return await this.glmChat(prompt);
-      } catch (error) {
-        logger.warn({ err: error }, 'GLM失败，切换DeepSeek');
-        if (DEEPSEEK_API_KEY) return await this.deepseekChat(prompt);
-        throw error;
-      }
-    } else if (DEEPSEEK_API_KEY) {
-      try {
-        return await this.deepseekChat(prompt);
-      } catch (error) {
-        logger.warn({ err: error }, 'DeepSeek失败，切换GLM');
-        if (GLM_API_KEY) return await this.glmChat(prompt);
-        throw error;
-      }
-    }
-    throw new Error('未配置任何AI服务');
+    const systemPrompt = await this.getSystemPrompt();
+    const result = await llmService.callLLM(prompt, {
+      systemPrompt,
+      metadata: { service: 'ragService' },
+    });
+    return result.content;
   }
 
   // 构建RAG提示词
@@ -1112,8 +1019,8 @@ ${instruction}
       const prompt = this.buildPrompt(sanitized, knowledgeResults, relatedAlumni);
       const answer = await this.chat(prompt);
 
-      // 5.5 Token 预算记录（粗略估算：prompt + answer 的字符数 / 2）
-      const estimatedTokens = Math.ceil((prompt.length + answer.length) / 2);
+      // 5.5 Token 预算记录（使用 llmService 的统一 token 估算）
+      const estimatedTokens = estimateTokens(prompt + answer);
       tokenBudget.record(estimatedTokens);
 
       const response: RAGResponse = {
@@ -1207,7 +1114,7 @@ ${instruction}
     this.cache.clear();
   }
   getProvider(): string {
-    return AI_PROVIDER;
+    return llmConfig.primary?.provider || 'unknown';
   }
   getTokenBudgetUsage() {
     return tokenBudget.getUsage();
