@@ -8,6 +8,7 @@ import logger from './config/logger';
 import authRoutes from './routes/auth';
 import alumniRoutes from './routes/alumni';
 import adminRoutes from './routes/admin'; // 拆分后的 admin/index.ts
+import aiSummaryRoutes from './routes/aiSummary';
 import contentRoutes from './routes/content';
 import uploadRoutes from './routes/upload';
 import backupRoutes from './routes/backup';
@@ -175,6 +176,7 @@ app.use('/api/content', contentRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/backup', backupRoutes);
 app.use('/api/qa', qaRoutes);
+app.use('/api/ai-summary', aiSummaryRoutes);
 app.use('/api/speech', speechRoutes);
 app.use('/api/self-service', selfServiceRoutes);
 
