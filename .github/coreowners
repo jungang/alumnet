@@ -1,0 +1,21 @@
+# These owners will be requested for review when PRs touch files in their areas.
+# Triagers and maintainers — add yourself to areas you want to review.
+
+# Frontend — Kiosk
+client/** @jungang
+
+# Frontend — Admin
+admin/** @jungang
+
+# Backend — API / Services / DB
+server/** @jungang
+
+# Documentation
+*.md @jungang
+docs/** @jungang
+
+# CI / GitHub config
+.github/** @jungang
+
+# Default
+* @jungang

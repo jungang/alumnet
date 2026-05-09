@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- Banner -->
-<img src="./screenshots/静息页.png" alt="AlumNet Banner" width="100%" style="border-radius: 12px; margin-bottom: 8px;" />
+<img src="./screenshots/standby.png" alt="AlumNet Banner" width="100%" style="border-radius: 12px; margin-bottom: 8px;" />
 
 <br/>
 
@@ -25,6 +25,9 @@
   <a href="https://github.com/jungang/alumnet/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/jungang/alumnet?color=blue" alt="License" />
   </a>
+  <a href="https://github.com/jungang/alumnet/releases">
+    <img src="https://img.shields.io/github/v/release/jungang/alumnet?color=orange" alt="Latest Release" />
+  </a>
   <img src="https://img.shields.io/github/last-commit/jungang/alumnet?color=informational" alt="Last commit" />
   <img src="https://img.shields.io/github/repo-size/jungang/alumnet?color=success" alt="Repo size" />
   <br/>
@@ -43,6 +46,7 @@
   <a href="#-architecture">Architecture</a> ·
   <a href="#-deployment">Deployment</a> ·
   <a href="https://github.com/jungang/alumnet/issues">Issues</a> ·
+  <a href="https://github.com/jungang/alumnet/discussions">Discussions</a> ·
   <a href="./CONTRIBUTING.md">Contributing</a>
 </h4>
 
@@ -72,31 +76,31 @@ Built for schools, museums, and education developers. Deploy it for your alma ma
 <table>
   <tr>
     <td width="50%">
-      <img src="./screenshots/静息页.png" alt="Standby Screen" width="100%" style="border-radius: 8px;" />
+      <img src="./screenshots/standby.png" alt="Standby Screen" width="100%" style="border-radius: 8px;" />
       <p align="center"><b>✨ Standby Screen</b><br/><sub>Sci-fi style kiosk standby with real-time clock</sub></p>
     </td>
     <td width="50%">
-      <img src="./screenshots/导航.png" alt="Main Navigation" width="100%" style="border-radius: 8px;" />
+      <img src="./screenshots/navigation.png" alt="Main Navigation" width="100%" style="border-radius: 8px;" />
       <p align="center"><b>🧭 Main Navigation</b><br/><sub>Five core modules with dark futuristic UI</sub></p>
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <img src="./screenshots/Snipaste_2026-05-02_21-08-51.png" alt="AI Smart Search" width="100%" style="border-radius: 8px;" />
+      <img src="./screenshots/ai-smart-search.png" alt="AI Smart Search" width="100%" style="border-radius: 8px;" />
       <p align="center"><b>🤖 AI Smart Search</b><br/><sub>Natural language query powered by RAG</sub></p>
     </td>
     <td width="50%">
-      <img src="./screenshots/Snipaste_2026-05-02_21-09-56.png" alt="Time Corridor" width="100%" style="border-radius: 8px;" />
+      <img src="./screenshots/time-corridor.png" alt="Time Corridor" width="100%" style="border-radius: 8px;" />
       <p align="center"><b>⏳ Time Corridor</b><br/><sub>Chronological photo gallery by graduation year</sub></p>
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <img src="./screenshots/Snipaste_2026-05-02_21-10-13.png" alt="Message Board" width="100%" style="border-radius: 8px;" />
+      <img src="./screenshots/message-board.png" alt="Message Board" width="100%" style="border-radius: 8px;" />
       <p align="center"><b>💬 Interactive Message Board</b><br/><sub>Alumni greetings and memories wall</sub></p>
     </td>
     <td width="50%">
-      <img src="./screenshots/Snipaste_2026-05-02_21-10-38.png" alt="Light Theme" width="100%" style="border-radius: 8px;" />
+      <img src="./screenshots/light-theme.png" alt="Light Theme" width="100%" style="border-radius: 8px;" />
       <p align="center"><b>🌗 Light Theme</b><br/><sub>Switchable dark/light themes for different venues</sub></p>
     </td>
   </tr>
@@ -318,6 +322,18 @@ alumnet/
 - [ ] **Data Visualization** — Interactive alumni statistics dashboard
 - [ ] **Mobile App** — Responsive design for mobile browsers
 - [ ] **Plugin System** — Extensible module architecture
+
+### Good First Issues
+
+New to the project? Check out these beginner-friendly issues:
+
+| Issue              | Description                                                                    | Skills Needed      |
+| :----------------- | :----------------------------------------------------------------------------- | :----------------- |
+| `good first issue` | [Browse all →](https://github.com/jungang/alumnet/labels/good%20first%20issue) | Any                |
+| i18n setup         | Add vue-i18n and extract hardcoded strings                                     | Vue 3, TypeScript  |
+| Unit tests         | Add test coverage for services/repositories                                    | Vitest, TypeScript |
+| Mobile responsive  | Improve touch-screen layouts for tablets                                       | CSS, Vue 3         |
+| Accessibility      | Add ARIA labels and keyboard navigation                                        | HTML, Vue 3        |
 
 ---
 

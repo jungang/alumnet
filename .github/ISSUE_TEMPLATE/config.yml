@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Ask a Question
+    url: https://github.com/jungang/alumnet/discussions/new?category=q-a
+    about: Ask the community for help with installation, configuration, or usage.
+  - name: 💡 Share an Idea
+    url: https://github.com/jungang/alumnet/discussions/new?category=ideas
+    about: Suggest features or discuss the project's direction.
+  - name: 🎣 Show and Tell
+    url: https://github.com/jungang/alumnet/discussions/new?category=show-and-tell
+    about: Share how you deployed AlumNet for your school or museum!
+  - name: 📖 Read the Docs
+    url: https://github.com/jungang/alumnet#readme
+    about: Check the README for quick start guides, configuration, and deployment instructions.
