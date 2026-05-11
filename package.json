@@ -25,16 +25,16 @@
     "pm2:delete": "pm2 delete all"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.5.3",
-    "@commitlint/config-conventional": "^20.5.3",
+    "@commitlint/cli": "^21.0.0",
+    "@commitlint/config-conventional": "^21.0.0",
     "@eslint/eslintrc": "^3.3.5",
-    "@eslint/js": "^9.39.4",
+    "@eslint/js": "^10.0.1",
     "axios": "^1.13.2",
-    "eslint": "^9.0.0",
+    "eslint": "^10.3.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
+    "lint-staged": "^17.0.4",
     "prettier": "^3.0.0",
-    "typescript": "^5.3.3"
+    "typescript": "^6.0.3"
   },
   "engines": {
     "node": ">=18.0.0",
