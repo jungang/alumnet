@@ -1,7 +1,7 @@
 # 多阶段构建 - 校友查询系统
 
 # 阶段1: 构建前端
-FROM node:18-alpine AS frontend-builder
+FROM node:26-alpine AS frontend-builder
 
 WORKDIR /app
 
@@ -25,7 +25,7 @@ COPY tsconfig.base.json ./
 RUN pnpm build:client && pnpm build:admin
 
 # 阶段2: 构建后端
-FROM node:18-alpine AS backend-builder
+FROM node:26-alpine AS backend-builder
 
 WORKDIR /app
 
@@ -42,7 +42,7 @@ COPY tsconfig.base.json ./
 RUN pnpm build:server
 
 # 阶段3: 生产镜像
-FROM node:18-alpine AS production
+FROM node:26-alpine AS production
 
 WORKDIR /app
 
